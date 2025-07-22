@@ -25,6 +25,14 @@ import { legalContent } from './data/legalContent';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [modalState, setModalState] = useState({
     isOpen: false,
     title: '',
@@ -59,6 +67,45 @@ function App() {
 
   const closeModal = () => {
     setModalState({ isOpen: false, title: '', content: '' });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'contact',
+          'name': formData.name,
+          'email': formData.email,
+          'phone': formData.phone,
+          'message': formData.message
+        }).toString()
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -487,8 +534,30 @@ function App() {
                       <Mail className="text-gold" size={32} />
                     </div>
                     <h3 className="h4 fw-bold text-gray">Envíame un mensaje</h3>
+                    {submitStatus === 'success' && (
+                      <div className="alert alert-success mt-3" role="alert">
+                        <strong>¡Mensaje enviado!</strong> Te contactaré pronto.
+                      </div>
+                    )}
+                    {submitStatus === 'error' && (
+                      <div className="alert alert-danger mt-3" role="alert">
+                        <strong>Error:</strong> No se pudo enviar el mensaje. Inténtalo de nuevo.
+                      </div>
+                    )}
                   </div>
-                  <form>
+                  <form 
+                    name="contact" 
+                    method="POST" 
+                    data-netlify="true" 
+                    onSubmit={handleSubmit}
+                    netlify-honeypot="bot-field"
+                  >
+                    <input type="hidden" name="form-name" value="contact" />
+                    <div style={{ display: 'none' }}>
+                      <label>
+                        Don't fill this out if you're human: <input name="bot-field" />
+                      </label>
+                    </div>
                     <div className="mb-3">
                       <label className="form-label text-gray fw-medium">
                         <Users size={16} className="me-2 text-gold" />
@@ -496,8 +565,12 @@ function App() {
                       </label>
                       <input 
                         type="text" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
                         className="form-control form-control-lg contact-input"
                         placeholder="Tu nombre"
+                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -507,8 +580,12 @@ function App() {
                       </label>
                       <input 
                         type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
                         className="form-control form-control-lg contact-input"
                         placeholder="tu@email.com"
+                        required
                       />
                     </div>
                     <div className="mb-3">
@@ -518,6 +595,9 @@ function App() {
                       </label>
                       <input 
                         type="tel" 
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         className="form-control form-control-lg contact-input"
                         placeholder="+1 (555) 123-4567"
                       />
@@ -529,16 +609,21 @@ function App() {
                       </label>
                       <textarea 
                         rows={4}
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
                         className="form-control form-control-lg contact-input"
                         placeholder="Cuéntame sobre tu negocio y objetivos de venta..."
                         style={{ resize: 'none' }}
+                        required
                       ></textarea>
                     </div>
                     <button 
                       type="submit"
+                      disabled={isSubmitting}
                       className="btn btn-gold btn-lg w-100 py-3 rounded-pill fw-semibold contact-submit-btn"
                     >
-                      Transformar Mis Ventas Ahora
+                      {isSubmitting ? 'Enviando...' : 'Transformar Mis Ventas Ahora'}
                     </button>
                   </form>
                 </div>
