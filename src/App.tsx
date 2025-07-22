@@ -218,7 +218,7 @@ function App() {
                 Sobre <span className="text-gold">Mí</span>
               </h2>
               <p className="fs-5 text-gray mb-4">
-                Con más de <strong className="text-terracotta">8 años de experiencia</strong> en ventas de alto ticket digital, he desarrollado un enfoque único que combina técnicas de closing avanzadas con conexión emocional auténtica.
+                Con más de <strong className="text-terracotta">8 años de experiencia</strong> en ventas, he desarrollado un enfoque único que combina técnicas de closing avanzadas con conexión emocional auténtica.
               </p>
               <p className="fs-5 text-gray mb-4">
                 Mi metodología se basa en entender profundamente las necesidades del cliente, crear confianza genuina y guiar hacia decisiones que realmente transformen sus vidas y negocios.
@@ -258,8 +258,8 @@ function App() {
                       <div className="gradient-mixed rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <Award className="text-white" size={32} />
                       </div>
-                      <h3 className="h4 text-white mb-1">+500</h3>
-                      <p className="mb-0 text-white-50">Cierres Exitosos</p>
+                      <h3 className="h4 text-white mb-1">35%</h3>
+                      <p className="mb-0 text-white-50">VLS</p>
                     </div>
                   </div>
                   <div className="col-md-4" data-aos="zoom-in" data-aos-delay="400">
@@ -268,7 +268,7 @@ function App() {
                         <Target className="text-white" size={32} />
                       </div>
                       <h3 className="h4 text-white mb-1">1000€</h3>
-                      <p className="mb-0 text-white-50">Ticket Promedio</p>
+                      <p className="mb-0 text-white-50">Ticket Mínimo</p>
                     </div>
                   </div>
                   <div className="col-md-4" data-aos="zoom-in" data-aos-delay="600">
@@ -276,8 +276,8 @@ function App() {
                       <div className="bg-terracotta rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <TrendingUp className="text-white" size={32} />
                       </div>
-                      <h3 className="h4 text-white mb-1">95%</h3>
-                      <p className="mb-0 text-white-50">Tasa de Cierre</p>
+                      <h3 className="h4 text-white mb-1">35%</h3>
+                      <p className="mb-0 text-white-50">Aumento de Ventas</p>
                     </div>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ function App() {
                     <h3 className="h5 fw-bold mb-0 text-gray">Resultados Inmediatos</h3>
                   </div>
                   <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Ve mejoras en tus métricas de conversión desde la primera semana de implementación.
+                    Consigue mejoras en tus métricas de conversión desde la primera semana de implementación.
                   </p>
                 </div>
               </div>
