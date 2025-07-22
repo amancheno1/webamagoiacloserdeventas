@@ -346,7 +346,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     <h3 className="h5 fw-bold mb-0 text-gray">Incremento de Ingresos</h3>
                   </div>
                   <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Aumenta tus conversiones hasta un 300% con técnicas de closing probadas y personalizadas para tu audiencia.
+                    Aumenta tus conversiones con técnicas de closing probadas y personalizadas para tu audiencia.
                   </p>
                 </div>
               </div>
