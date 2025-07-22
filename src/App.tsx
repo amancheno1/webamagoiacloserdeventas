@@ -98,24 +98,28 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'contact',
-          'name': formData.name,
-          'email': formData.email,
-          'phone': formData.phone,
-          'message': formData.message
-        }).toString()
-      });
+      // Create mailto link with form data
+      const subject = encodeURIComponent(`Nuevo contacto de ${formData.name} - Amagoia Louvier`);
+      const body = encodeURIComponent(`
+Nombre: ${formData.name}
+Email: ${formData.email}
+Teléfono: ${formData.phone || 'No proporcionado'}
 
-      if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', phone: '', message: '' });
-      } else {
-        setSubmitStatus('error');
-      }
+Mensaje:
+${formData.message}
+
+---
+Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.app
+      `);
+      
+      const mailtoLink = `mailto:amagoialr@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Open email client
+      window.location.href = mailtoLink;
+      
+      // Show success message and reset form
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
       setSubmitStatus('error');
     } finally {
