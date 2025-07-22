@@ -493,20 +493,20 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 <div className="card-body p-4">
                   <div className="d-flex align-items-start mb-4">
                     <div className="service-icon-circle bg-gray me-3">
-                      <Users size={28} className="text-white" />
+                      <Heart size={28} className="text-white" />
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h4 fw-bold mb-2 text-gray">Entrenamiento de Equipos</h3>
+                      <h3 className="h4 fw-bold mb-2 text-gray">Fidelización y Seguimiento</h3>
                       <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Formación especializada para tu equipo de ventas en técnicas avanzadas.
+                        Estrategias personalizadas para mantener y fortalecer la relación con tus clientes.
                       </p>
                     </div>
                   </div>
                   <div className="service-features">
-                    <div className="feature-item">• Workshops intensivos</div>
-                    <div className="feature-item">• Role playing avanzado</div>
-                    <div className="feature-item">• Certificación interna</div>
-                    <div className="feature-item">• Seguimiento continuo</div>
+                    <div className="feature-item">• Programas de fidelización</div>
+                    <div className="feature-item">• Seguimiento post-venta</div>
+                    <div className="feature-item">• Estrategias de retención</div>
+                    <div className="feature-item">• Upselling y cross-selling</div>
                   </div>
                 </div>
               </div>
