@@ -68,7 +68,7 @@ function App() {
         <div className="container">
           <div className="navbar-brand d-flex align-items-center">
             <img 
-              src="/src/assets/logo amagoia.jpg" 
+              src="/assets/logo amagoia.jpg" 
               alt="Amagoia Louvier Logo" 
               className="rounded-circle me-3"
               style={{ width: '48px', height: '48px', objectFit: 'cover', border: '2px solid #D4AF37' }}
@@ -192,7 +192,7 @@ function App() {
                   }}
                 ></div>
                 <img 
-                  src="/src/assets/amagoia poerfil2.jpg" 
+                  src="/assets/amagoia poerfil2.jpg" 
                   alt="Amagoia Louvier" 
                   className="profile-image position-relative"
                   style={{ width: '400px', height: '480px', objectFit: 'cover' }}
@@ -465,7 +465,7 @@ function App() {
             </p>
             <div className="d-flex justify-content-center mb-4" data-aos="zoom-in">
               <img 
-                src="/src/assets/amagoia petfil1.jpg" 
+                src="/assets/amagoia petfil1.jpg" 
                 alt="Amagoia Louvier Servicios" 
                 className="rounded-circle border border-4"
                 style={{ 
@@ -641,7 +641,7 @@ function App() {
         <div className="container">
           <div className="text-center mb-4">
             <img 
-              src="/src/assets/logo amagoia.jpg" 
+              src="/assets/logo amagoia.jpg" 
               alt="Amagoia Louvier Logo" 
               className="rounded-circle mb-3"
               style={{ width: '80px', height: '80px', objectFit: 'cover', border: '2px solid #D4AF37' }}
