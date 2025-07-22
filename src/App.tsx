@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import { 
+  trackFormSubmission, 
+  trackButtonClick, 
+  trackExternalLink, 
+  trackWhatsAppClick, 
+  trackSocialClick, 
+  trackConsultationBooking 
+} from './utils/analytics';
+import { 
   Menu, 
   X, 
   Phone, 
@@ -81,6 +89,9 @@ function App() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    
+    // Track form submission
+    trackFormSubmission('contact_form');
 
     try {
       const response = await fetch('/', {
@@ -173,6 +184,7 @@ function App() {
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"
+        onClick={trackWhatsAppClick}
       >
         <MessageCircle size={24} />
       </a>
@@ -195,11 +207,18 @@ function App() {
               <button 
                 onClick={() => scrollToSection('contacto')}
                 className="btn btn-gold btn-lg px-4 py-3 rounded-pill fw-semibold"
+                onClick={() => {
+                  trackButtonClick('hero_transform_sales');
+                  scrollToSection('contacto');
+                }}
               >
                 Transformar Mis Ventas
               </button>
               <button 
-                onClick={() => scrollToSection('sobre-mi')}
+                onClick={() => {
+                  trackButtonClick('hero_know_more');
+                  scrollToSection('sobre-mi');
+                }}
                 className="btn btn-terracotta btn-lg px-4 py-3 rounded-pill fw-semibold"
               >
                 Conocer Más
@@ -501,6 +520,10 @@ function App() {
                 rel="noopener noreferrer"
                 className="btn btn-lg px-5 py-3 rounded-pill fw-semibold text-white"
                 style={{ background: 'linear-gradient(135deg, #D4AF37, #D96941)' }}
+                onClick={() => {
+                  trackConsultationBooking();
+                  trackExternalLink('https://calendly.com/amagoiavd/30min');
+                }}
               >
                 Agendar Ahora
               </a>
@@ -696,6 +719,10 @@ function App() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="social-icon instagram-gradient text-white social-3d"
+                          onClick={() => {
+                            trackSocialClick('instagram');
+                            trackExternalLink('https://www.instagram.com/amagoia_louvier/');
+                          }}
                         >
                           <Instagram size={24} />
                         </a>
@@ -705,18 +732,24 @@ function App() {
                           rel="noopener noreferrer"
                           className="social-icon text-white social-3d"
                           style={{ backgroundColor: '#1877F2' }}
+                          onClick={() => {
+                            trackSocialClick('facebook');
+                            trackExternalLink('https://www.facebook.com/people/Amagoia-Louvier/100009764285753/');
+                          }}
                         >
                           <Facebook size={24} />
                         </a>
                         <a
                           href="mailto:amagoialr@gmail.com"
                           className="social-icon bg-terracotta text-white social-3d"
+                          onClick={() => trackSocialClick('email')}
                         >
                           <Mail size={24} />
                         </a>
                         <a
                           href="tel:+34672985178"
                           className="social-icon bg-gold text-white social-3d"
+                          onClick={() => trackSocialClick('phone')}
                         >
                           <Phone size={24} />
                         </a>
