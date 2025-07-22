@@ -253,7 +253,7 @@ function App() {
             <div className="col-lg-10">
               <div className="stats-container p-4 rounded-4 shadow-lg" style={{ background: 'linear-gradient(135deg, #6E6E6E, rgba(110, 110, 110, 0.9))', border: '2px solid rgba(212, 175, 55, 0.3)' }}>
                 <div className="row g-4 text-center">
-                  <div className="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="200">
                     <div className="stat-item">
                       <div className="gradient-mixed rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <Award className="text-white" size={32} />
@@ -262,7 +262,16 @@ function App() {
                       <p className="mb-0 text-white-50">VLS</p>
                     </div>
                   </div>
-                  <div className="col-md-4" data-aos="zoom-in" data-aos-delay="400">
+                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+                    <div className="stat-item">
+                      <div className="bg-lavender rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
+                        <TrendingUp className="text-white" size={32} />
+                      </div>
+                      <h3 className="h4 text-white mb-1">80%</h3>
+                      <p className="mb-0 text-white-50">VLS Lanzamiento</p>
+                    </div>
+                  </div>
+                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="400">
                     <div className="stat-item">
                       <div className="bg-gold rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <Target className="text-white" size={32} />
@@ -271,7 +280,7 @@ function App() {
                       <p className="mb-0 text-white-50">Ticket Mínimo</p>
                     </div>
                   </div>
-                  <div className="col-md-4" data-aos="zoom-in" data-aos-delay="600">
+                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="500">
                     <div className="stat-item">
                       <div className="bg-terracotta rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <TrendingUp className="text-white" size={32} />
