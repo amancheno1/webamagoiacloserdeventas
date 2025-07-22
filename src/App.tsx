@@ -245,7 +245,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 Sobre <span className="text-gold">Mí</span>
               </h2>
               <p className="fs-5 text-gray mb-4">
-                Con más de <strong className="text-terracotta">12 años de experiencia</strong> en ventas, he desarrollado un enfoque único que combina técnicas de closing avanzadas con conexión emocional auténtica.
+                Con más de <strong className="text-terracotta">14 años de experiencia</strong> en ventas, he desarrollado un enfoque único que combina técnicas de closing avanzadas con conexión emocional auténtica.
               </p>
               <p className="fs-5 text-gray mb-4">
                 Mi metodología se basa en entender profundamente las necesidades del cliente, crear confianza genuina y guiar hacia decisiones que realmente transformen sus vidas y negocios.
