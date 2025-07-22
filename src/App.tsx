@@ -440,7 +440,7 @@ function App() {
                 Agenda una llamada de 30 minutos para analizar tu situación actual y descubrir oportunidades de mejora
               </p>
               <a
-                href="https://calendly.com/amagoia-louvier"
+                href="https://calendly.com/amagoiavd/30min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-lg px-5 py-3 rounded-pill fw-semibold text-white"
