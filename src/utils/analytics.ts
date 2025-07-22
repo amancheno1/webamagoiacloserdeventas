@@ -8,7 +8,7 @@ declare global {
 // Track page views
 export const trackPageView = (url: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'GA_MEASUREMENT_ID', {
+    window.gtag('config', 'G-XXXXXXXXXX', {
       page_path: url,
     });
   }

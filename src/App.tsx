@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
+import { trackPageView } from './utils/analytics';
 import { 
   trackFormSubmission, 
   trackButtonClick, 
@@ -53,6 +54,9 @@ function App() {
       once: true,
       offset: 100
     });
+
+    // Track initial page view
+    trackPageView(window.location.pathname);
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
