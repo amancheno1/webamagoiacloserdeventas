@@ -846,7 +846,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               </button>
             </div>
             <p className="mb-2" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-              © 2024 Amagoia Louvier. Todos los derechos reservados.
+              © 2025 Amagoia Louvier. Todos los derechos reservados.
             </p>
             <p className="mb-0" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
               Hecho con <Heart size={16} className="text-danger mx-1" /> para transformar ventas
