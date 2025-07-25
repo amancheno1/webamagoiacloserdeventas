@@ -763,7 +763,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           <Linkedin size={24} />
                         </a>
                         <a
-                          href="mailto:amagoialr@gmail.com"
+                          href="mailto:amagoiavd@gmail.com"
                           className="social-icon bg-terracotta text-white social-3d"
                           onClick={() => trackSocialClick('email')}
                         >
