@@ -760,7 +760,17 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           className="social-icon bg-gold text-white social-3d"
                           onClick={() => trackSocialClick('phone')}
                         >
-                          <Phone size={24} />
+                          <Linkedin size={24} />
+                          href="https://www.linkedin.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="social-icon text-white social-3d"
+                          style={{ backgroundColor: '#1877F2' }}
+                          onClick={() => {
+                            trackSocialClick('facebook');
+                            trackExternalLink('https://www.facebook.com/people/Amagoia-Louvier/100009764285753/');
+                          }}
+                        >
                         </a>
                       </div>
                     </div>
@@ -811,11 +821,15 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 href="mailto:amagoialr@gmail.com"
                 className="social-icon bg-terracotta text-white"
               >
-                <Mail size={20} />
+                <Linkedin size={20} />
               </a>
               <a
-                href="tel:+34672985178"
-                className="social-icon bg-gold text-white"
+                href="https://www.linkedin.com/"
+               target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon text-white"
+                style={{ backgroundColor: '#1877F2' }}
+              >
               >
                 <Phone size={20} />
               </a>
