@@ -26,7 +26,8 @@ import {
   BarChart3, 
   BookOpen, 
   Award,
-  Heart
+  Heart,
+  Linkedin
 } from 'lucide-react';
 import LegalModal from './components/LegalModal';
 import { legalContent } from './data/legalContent';
@@ -753,23 +754,16 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           className="social-icon bg-terracotta text-white social-3d"
                           onClick={() => trackSocialClick('email')}
                         >
-                          <Linkedin size={24} />
+                          <Mail size={24} />
                         </a>
                         <a
                           href="https://www.linkedin.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="social-icon bg-gold text-white social-3d"
                           onClick={() => trackSocialClick('linkedin')}
                         >
                           <Linkedin size={24} />
-                          href="https://www.linkedin.com"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="social-icon text-white social-3d"
-                          style={{ backgroundColor: '#1877F2' }}
-                          onClick={() => {
-                            trackSocialClick('facebook');
-                            trackExternalLink('https://www.facebook.com/people/Amagoia-Louvier/100009764285753/');
-                          }}
                         </a>
                       </div>
                     </div>
@@ -820,15 +814,20 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 href="mailto:amagoialr@gmail.com"
                 className="social-icon bg-terracotta text-white"
               >
-                <Linkedin size={20} />
+                <Mail size={20} />
               </a>
-                <a
+              <a
             href="https://www.linkedin.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="social-icon text-white"
             style={{ backgroundColor: '#0077B5' }}
+            onClick={() => {
+              trackSocialClick('linkedin');
+              trackExternalLink('https://www.linkedin.com/');
+            }}
           >
+            <Linkedin size={20} />
           </a>
             </div>
           </div>
