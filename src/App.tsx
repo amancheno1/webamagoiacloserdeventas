@@ -518,7 +518,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
           <div className="mt-5" data-aos="zoom-in">
             <div className="consultation-box text-center">
               <h3 className="h2 font-serif fw-bold text-gray mb-4">
-                <span className="text-gold">Consulta Gratuita</span>
+                <span className="text-gold">Consulta Personalizada</span>
               </h3>
               <p className="fs-5 mb-4" style={{ color: 'rgba(110, 110, 110, 0.8)' }}>
                 Agenda una llamada de 30 minutos para analizar tu situación actual y descubrir oportunidades de mejora
