@@ -347,7 +347,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     <h3 className="h5 fw-bold mb-0 text-gray">Incremento de Ingresos</h3>
                   </div>
                   <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Aumenta tus conversiones con técnicas de closing probadas y personalizadas para tu audiencia.
+                    Aumenta un 35% de tus conversiones con técnicas de closing probadas y personalizadas para tu audiencia.
                   </p>
                 </div>
               </div>
@@ -360,10 +360,10 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     <div className="modern-icon-circle bg-terracotta me-3">
                       <Users size={24} className="text-white" />
                     </div>
-                    <h3 className="h5 fw-bold mb-0 text-gray">Escalabilidad</h3>
+                    <h3 className="h5 fw-bold mb-0 text-gray">Reducción de tiempo</h3>
                   </div>
                   <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Libera tu tiempo para enfocarte en crear contenido mientras yo me encargo de cerrar tus ventas.
+                    Libera un 40% de tus horas semanales para enfocarte en crear contenido mientras yo me encargo de cerrar tus ventas.
                   </p>
                 </div>
               </div>
