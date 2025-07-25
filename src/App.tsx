@@ -750,7 +750,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           <Facebook size={24} />
                         </a>
                         <a
-                          href="https://www.linkedin.com/home"
+                          href="https://www.linkedin.com/amagoia-louvier"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="social-icon text-white social-3d"
@@ -822,7 +822,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 style={{ backgroundColor: '#0077B5' }}
                 onClick={() => {
                   trackSocialClick('linkedin');
-                  trackExternalLink('https://www.linkedin.com/home');
+                  trackExternalLink('https://www.linkedin.com/amagoia-louvier');
                 }}
               >
                 <Linkedin size={20} />
