@@ -828,7 +828,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 <Linkedin size={20} />
               </a>
               <a
-                href="mailto:amagoialr@gmail.com"
+                href="mailto:amagoiavd@gmail.com"
                 className="social-icon bg-terracotta text-white"
               >
                 <Mail size={20} />
