@@ -286,7 +286,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         <Award className="text-white" size={32} />
                       </div>
                       <h3 className="h4 text-white mb-1">35%</h3>
-                      <p className="mb-0 text-white-50">Cierre Promedio Evergreen VSL</p>
+                      <p className="mb-0 text-white-50">Cierre Promedio 
+                        Evergreen VSL</p>
                     </div>
                   </div>
                   <div className="col-md-3" data-aos="zoom-in" data-aos-delay="300">
@@ -295,7 +296,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         <TrendingUp className="text-white" size={32} />
                       </div>
                       <h3 className="h4 text-white mb-1">80%</h3>
-                      <p className="mb-0 text-white-50">Cierre Lanzamiento High Ticket</p>
+                      <p className="mb-0 text-white-50">Cierre Lanzamiento 
+                        High Ticket</p>
                     </div>
                   </div>
                   <div className="col-md-3" data-aos="zoom-in" data-aos-delay="400">
