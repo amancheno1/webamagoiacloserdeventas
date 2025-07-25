@@ -753,12 +753,12 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           className="social-icon bg-terracotta text-white social-3d"
                           onClick={() => trackSocialClick('email')}
                         >
-                          <Mail size={24} />
+                          <Linkedin size={24} />
                         </a>
                         <a
-                          href="tel:+34672985178"
+                          href="https://www.linkedin.com"
                           className="social-icon bg-gold text-white social-3d"
-                          onClick={() => trackSocialClick('phone')}
+                          onClick={() => trackSocialClick('linkedin')}
                         >
                           <Linkedin size={24} />
                           href="https://www.linkedin.com"
@@ -822,16 +822,15 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               >
                 <Linkedin size={20} />
               </a>
-              <a
-                href="https://www.linkedin.com/"
-               target="_blank"
-                rel="noopener noreferrer"
-                className="social-icon text-white"
-                style={{ backgroundColor: '#1877F2' }}
-              >
-              >
-                <Phone size={20} />
-              </a>
+                <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-icon text-white"
+            style={{ backgroundColor: '#0077B5' }}
+          >
+            <Linkedin size={20} />
+          </a>
             </div>
           </div>
           
