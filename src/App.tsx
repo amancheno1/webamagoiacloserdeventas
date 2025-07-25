@@ -829,7 +829,6 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
             className="social-icon text-white"
             style={{ backgroundColor: '#0077B5' }}
           >
-            <Linkedin size={20} />
           </a>
             </div>
           </div>
