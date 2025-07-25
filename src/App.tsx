@@ -770,7 +770,6 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                             trackSocialClick('facebook');
                             trackExternalLink('https://www.facebook.com/people/Amagoia-Louvier/100009764285753/');
                           }}
-                        >
                         </a>
                       </div>
                     </div>
