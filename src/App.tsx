@@ -639,7 +639,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="form-control form-control-lg contact-input"
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+34 xxx xxxx xxx"
                       />
                     </div>
                     <div className="mb-4">
@@ -687,7 +687,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         </div>
                         <div>
                           <p className="fw-semibold text-gray mb-1">Teléfono</p>
-                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>672 985 178</p>
+                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>627 985 178</p>
                         </div>
                       </div>
                       <div className="contact-info-item mb-3">
