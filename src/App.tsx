@@ -698,7 +698,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         </div>
                         <div>
                           <p className="fw-semibold text-gray mb-1">Email</p>
-                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>amagoialr@gmail.com</p>
+                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>amagoiavd@gmail.com</p>
                         </div>
                       </div>
                       <div className="contact-info-item">
