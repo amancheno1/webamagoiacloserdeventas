@@ -591,6 +591,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     name="contact" 
                     method="POST" 
                     data-netlify="true" 
+                   netlify
                     onSubmit={handleSubmit}
                     netlify-honeypot="bot-field"
                   >
