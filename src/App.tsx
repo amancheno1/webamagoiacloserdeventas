@@ -757,7 +757,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           style={{ backgroundColor: '#0077B5' }}
                           onClick={() => {
                             trackSocialClick('linkedin');
-                            trackExternalLink('https://www.linkedin.com/amagoia-louvier');
+                            trackExternalLink('https://www.linkedin.com//in/amagoia-                             louvier');
                           }}
                         >
                           <Linkedin size={24} />
@@ -822,7 +822,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 style={{ backgroundColor: '#0077B5' }}
                 onClick={() => {
                   trackSocialClick('linkedin');
-                  trackExternalLink('https://www.linkedin.com/amagoia-louvier');
+                  trackExternalLink('https://www.linkedin.com//in/amagoia-louvier');
                 }}
               >
                 <Linkedin size={20} />
