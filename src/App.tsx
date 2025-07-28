@@ -815,7 +815,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                 <Facebook size={20} />
               </a>
               <a
-                href="https://www.linkedin.com/home"
+                href="https://www.linkedin.com//in/amagoia-louvier-                      82835b131&/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon text-white"
