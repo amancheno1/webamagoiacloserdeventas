@@ -750,14 +750,14 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                           <Facebook size={24} />
                         </a>
                         <a
-                          href="https://www.linkedin.com/amagoia-louvier"
+                          href="https://www.linkedin.com/amagoia-louvier-82835b131/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="social-icon text-white social-3d"
                           style={{ backgroundColor: '#0077B5' }}
                           onClick={() => {
                             trackSocialClick('linkedin');
-                            trackExternalLink('https://www.linkedin.com/in/amagoia-                              louvier-82835b131/');
+                            trackExternalLink('https://www.linkedin.com/in/amagoia-   louvier-82835b131/');
                           }}
                         >
                           <Linkedin size={24} />
