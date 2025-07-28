@@ -100,28 +100,22 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent(`Nuevo contacto de ${formData.name} - Amagoia Louvier`);
-      const body = encodeURIComponent(`
-Nombre: ${formData.name}
-Email: ${formData.email}
-Teléfono: ${formData.phone || 'No proporcionado'}
-
-Mensaje:
-${formData.message}
-
----
-Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.app
-      `);
+      // Submit to Netlify Forms
+      const formElement = e.target as HTMLFormElement;
+      const formData = new FormData(formElement);
       
-      const mailtoLink = `mailto:amagoiavd@gmail.com?subject=${subject}&body=${body}`;
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
+      });
       
-      // Open email client
-      window.location.href = mailtoLink;
-      
-      // Show success message and reset form
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        throw new Error('Network response was not ok');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
@@ -580,18 +574,28 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     <h3 className="h4 fw-bold text-gray">Envíame un mensaje</h3>
                     {submitStatus === 'success' && (
                       <div className="alert alert-success mt-3" role="alert">
-                        <strong>¡Mensaje enviado!</strong> Te contactaré pronto.
+                        <strong>¡Mensaje enviado!</strong> He recibido tu mensaje y te contactaré pronto.
                       </div>
                     )}
                     {submitStatus === 'error' && (
                       <div className="alert alert-danger mt-3" role="alert">
-                        <strong>Error:</strong> No se pudo enviar el mensaje. Inténtalo de nuevo.
+                        <strong>Error:</strong> No se pudo enviar el mensaje. Por favor, inténtalo de nuevo o contáctame directamente.
                       </div>
                     )}
                   </div>
                   <form 
+                    name="contact"
+                    method="POST"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
                     onSubmit={handleSubmit}
                   >
+                    <input type="hidden" name="form-name" value="contact" />
+                    <div style={{ display: 'none' }}>
+                      <label>
+                        Don't fill this out if you're human: <input name="bot-field" />
+                      </label>
+                    </div>
                     <div className="mb-3">
                       <label className="form-label text-gray fw-medium">
                         <Users size={16} className="me-2 text-gold" />
