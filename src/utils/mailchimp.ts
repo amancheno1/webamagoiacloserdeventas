@@ -1,7 +1,7 @@
 // Mailchimp API integration
-const MAILCHIMP_API_KEY = 'TU_API_KEY_AQUI'; // Reemplaza con tu API key real
+const MAILCHIMP_API_KEY = '755b1aa1d0b9273ec7282c53140968b2-us7';
 const MAILCHIMP_SERVER_PREFIX = 'us7';
-const MAILCHIMP_LIST_ID = 'TU_LIST_ID_AQUI'; // Reemplaza con tu List ID real
+const MAILCHIMP_LIST_ID = 'closer-web'; // Lista "closer Web"
 
 export interface ContactFormData {
   name: string;

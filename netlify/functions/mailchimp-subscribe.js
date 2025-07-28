@@ -2,7 +2,7 @@ const mailchimp = require('@mailchimp/mailchimp_marketing');
 
 // Configure Mailchimp
 mailchimp.setConfig({
-  apiKey: process.env.MAILCHIMP_API_KEY || 'TU_API_KEY_AQUI',
+  apiKey: process.env.MAILCHIMP_API_KEY || '755b1aa1d0b9273ec7282c53140968b2-us7',
   server: 'us7',
 });
 
@@ -27,8 +27,8 @@ exports.handler = async (event, context) => {
     }
 
     // Add member to Mailchimp list
-    // Note: You'll need to replace 'TU_LIST_ID_AQUI' with your actual Mailchimp list ID
-    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || 'TU_LIST_ID_AQUI', {
+    // Using the "closer Web" list
+    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || 'closer-web', {
       email_address: email,
       status: 'subscribed',
       merge_fields: {

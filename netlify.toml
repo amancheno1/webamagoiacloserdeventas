@@ -8,8 +8,8 @@
 
 # Environment variables for production
 [context.production.environment]
-  MAILCHIMP_API_KEY = "TU_API_KEY_AQUI"
-  MAILCHIMP_LIST_ID = "TU_LIST_ID_AQUI"
+  MAILCHIMP_API_KEY = "755b1aa1d0b9273ec7282c53140968b2-us7"
+  MAILCHIMP_LIST_ID = "closer-web"
   NOTIFICATION_EMAIL = "amagoiavd@gmail.com"
 
 [[redirects]]
