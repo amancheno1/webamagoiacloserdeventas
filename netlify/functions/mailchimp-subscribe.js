@@ -2,7 +2,7 @@ const mailchimp = require('@mailchimp/mailchimp_marketing');
 
 // Configure Mailchimp
 mailchimp.setConfig({
-  apiKey: 'd1a11c7d9d9b5aaee4307c21cf001386-us7',
+  apiKey: process.env.MAILCHIMP_API_KEY || 'TU_API_KEY_AQUI',
   server: 'us7',
 });
 
@@ -27,15 +27,15 @@ exports.handler = async (event, context) => {
     }
 
     // Add member to Mailchimp list
-    // Note: You'll need to replace 'YOUR_LIST_ID' with your actual Mailchimp list ID
-    const response = await mailchimp.lists.addListMember('YOUR_LIST_ID', {
+    // Note: You'll need to replace 'TU_LIST_ID_AQUI' with your actual Mailchimp list ID
+    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || 'TU_LIST_ID_AQUI', {
       email_address: email,
       status: 'subscribed',
       merge_fields: {
         FNAME: name.split(' ')[0] || '',
         LNAME: name.split(' ').slice(1).join(' ') || '',
         PHONE: phone || '',
-        MESSAGE: message,
+        MMERGE6: message, // Custom field for message
       },
       tags: ['website-contact'],
     });

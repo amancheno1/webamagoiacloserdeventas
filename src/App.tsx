@@ -100,17 +100,25 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
-      // Submit to Netlify Forms
+      // Submit to Netlify Forms (this will handle email notifications)
       const formElement = e.target as HTMLFormElement;
-      const formData = new FormData(formElement);
+      const netlifyFormData = new FormData(formElement);
       
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString()
+        body: new URLSearchParams(netlifyFormData as any).toString()
       });
       
       if (response.ok) {
+        // Also submit to Mailchimp
+        try {
+          await submitToMailchimp(formData);
+        } catch (mailchimpError) {
+          console.error('Mailchimp submission failed:', mailchimpError);
+          // Don't fail the entire form if Mailchimp fails
+        }
+        
         setSubmitStatus('success');
         setFormData({ name: '', email: '', phone: '', message: '' });
       } else {

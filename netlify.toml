@@ -6,6 +6,12 @@
 [functions]
   node_bundler = "esbuild"
 
+# Environment variables for production
+[context.production.environment]
+  MAILCHIMP_API_KEY = "TU_API_KEY_AQUI"
+  MAILCHIMP_LIST_ID = "TU_LIST_ID_AQUI"
+  NOTIFICATION_EMAIL = "amagoiavd@gmail.com"
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
