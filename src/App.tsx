@@ -100,15 +100,6 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
-      // Try to submit to Mailchimp first
-      const mailchimpSuccess = await submitToMailchimp(formData as ContactFormData);
-      
-      if (mailchimpSuccess) {
-        console.log('Successfully added to Mailchimp');
-      } else {
-        console.warn('Failed to add to Mailchimp, but continuing with email');
-      }
-
       // Create mailto link with form data
       const subject = encodeURIComponent(`Nuevo contacto de ${formData.name} - Amagoia Louvier`);
       const body = encodeURIComponent(`
