@@ -113,7 +113,7 @@ ${formData.message}
 Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.app
       `);
       
-      const mailtoLink = `mailto:amagoialr@gmail.com?subject=${subject}&body=${body}`;
+      const mailtoLink = `mailto:amagoiavd@gmail.com?subject=${subject}&body=${body}`;
       
       // Open email client
       window.location.href = mailtoLink;
