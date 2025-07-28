@@ -27,8 +27,8 @@ exports.handler = async (event, context) => {
     }
 
     // Add member to Mailchimp list
-    // Using the "closer Web" list
-    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || 'closer-web', {
+    // Using the "closer Web" list (ID: 05e07cf8da)
+    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || '05e07cf8da', {
       email_address: email,
       status: 'subscribed',
       merge_fields: {
