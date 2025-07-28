@@ -9,6 +9,7 @@ import {
   trackSocialClick, 
   trackConsultationBooking 
 } from './utils/analytics';
+import { submitToMailchimp, type ContactFormData } from './utils/mailchimp';
 import { 
   Menu, 
   X, 
@@ -99,6 +100,15 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
+      // Try to submit to Mailchimp first
+      const mailchimpSuccess = await submitToMailchimp(formData as ContactFormData);
+      
+      if (mailchimpSuccess) {
+        console.log('Successfully added to Mailchimp');
+      } else {
+        console.warn('Failed to add to Mailchimp, but continuing with email');
+      }
+
       // Create mailto link with form data
       const subject = encodeURIComponent(`Nuevo contacto de ${formData.name} - Amagoia Louvier`);
       const body = encodeURIComponent(`
@@ -122,6 +132,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (error) {
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -588,18 +599,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                     )}
                   </div>
                   <form 
-                    name="contact" 
-                    method="POST" 
-                    data-netlify="true" 
                     onSubmit={handleSubmit}
-                    netlify-honeypot="bot-field"
                   >
-                    <input type="hidden" name="form-name" value="contact" />
-                    <div style={{ display: 'none' }}>
-                      <label>
-                        Don't fill this out if you're human: <input name="bot-field" />
-                      </label>
-                    </div>
                     <div className="mb-3">
                       <label className="form-label text-gray fw-medium">
                         <Users size={16} className="me-2 text-gold" />
