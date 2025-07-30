@@ -8,11 +8,8 @@ const GDPRBanner: React.FC = () => {
     // Check if user has already made a choice
     const consent = localStorage.getItem('gdpr-consent');
     if (!consent) {
-      // Show banner after a short delay
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 2000);
-      return () => clearTimeout(timer);
+      // Show banner immediately
+      setIsVisible(true);
     }
   }, []);
 
