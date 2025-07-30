@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import LegalModal from './components/LegalModal';
 import GDPRBanner from './components/GDPRBanner';
+import PopupForm from './components/PopupForm';
 import { legalContent } from './data/legalContent';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
     title: '',
     content: ''
   });
+  const [isPopupFormOpen, setIsPopupFormOpen] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -65,6 +67,15 @@ function App() {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
+    
+    // Show popup form after 10 seconds
+    const popupTimer = setTimeout(() => {
+      const hasSeenPopup = localStorage.getItem('popup-form-seen');
+      if (!hasSeenPopup) {
+        setIsPopupFormOpen(true);
+      }
+    }, 10000);
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -82,6 +93,11 @@ function App() {
 
   const closeModal = () => {
     setModalState({ isOpen: false, title: '', content: '' });
+  };
+  
+  const closePopupForm = () => {
+    setIsPopupFormOpen(false);
+    localStorage.setItem('popup-form-seen', 'true');
   };
 
   // Listen for privacy policy open event from GDPR banner
@@ -895,6 +911,12 @@ function App() {
 
       {/* GDPR Consent Banner */}
       <GDPRBanner />
+      
+      {/* Popup Form */}
+      <PopupForm 
+        isOpen={isPopupFormOpen} 
+        onClose={closePopupForm} 
+      />
     </div>
   );
 }
