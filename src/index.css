@@ -465,6 +465,22 @@ body {
   scroll-behavior: smooth;
 }
 
+/* GDPR Banner Styles */
+.gdpr-banner {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;

@@ -31,6 +31,7 @@ import {
   Linkedin
 } from 'lucide-react';
 import LegalModal from './components/LegalModal';
+import GDPRBanner from './components/GDPRBanner';
 import { legalContent } from './data/legalContent';
 
 function App() {
@@ -82,6 +83,16 @@ function App() {
   const closeModal = () => {
     setModalState({ isOpen: false, title: '', content: '' });
   };
+
+  // Listen for privacy policy open event from GDPR banner
+  useEffect(() => {
+    const handleOpenPrivacyPolicy = () => {
+      openModal('Política de Privacidad', legalContent.privacyPolicy);
+    };
+
+    window.addEventListener('openPrivacyPolicy', handleOpenPrivacyPolicy);
+    return () => window.removeEventListener('openPrivacyPolicy', handleOpenPrivacyPolicy);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -881,6 +892,9 @@ function App() {
         title={modalState.title}
         content={modalState.content}
       />
+
+      {/* GDPR Consent Banner */}
+      <GDPRBanner />
     </div>
   );
 }
