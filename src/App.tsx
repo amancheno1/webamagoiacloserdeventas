@@ -69,14 +69,23 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     
     // Show popup form after 10 seconds
-    const popupTimer = setTimeout(() => {
+    // Listen for GDPR acceptance to show popup
+    const handleShowPopup = () => {
       const hasSeenPopup = localStorage.getItem('popup-form-seen');
       if (!hasSeenPopup) {
-        setIsPopupFormOpen(true);
+        // Show popup after a short delay when GDPR is accepted
+        setTimeout(() => {
+          setIsPopupFormOpen(true);
+        }, 1500);
       }
-    }, 10000);
+    };
+
+    window.addEventListener('showPopupForm', handleShowPopup);
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('showPopupForm', handleShowPopup);
+    };
   }, []);
 
   const scrollToSection = (sectionId: string) => {

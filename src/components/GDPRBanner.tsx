@@ -28,6 +28,10 @@ const GDPRBanner: React.FC = () => {
         'ad_storage': 'granted'
       });
     }
+    
+    // Trigger popup form after accepting GDPR
+    const showPopupEvent = new CustomEvent('showPopupForm');
+    window.dispatchEvent(showPopupEvent);
   };
 
   const handleReject = () => {
