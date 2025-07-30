@@ -46,6 +46,10 @@ const GDPRBanner: React.FC = () => {
         'ad_storage': 'denied'
       });
     }
+    
+    // Trigger popup form after rejecting GDPR too
+    const showPopupEvent = new CustomEvent('showPopupForm');
+    window.dispatchEvent(showPopupEvent);
   };
 
   if (!isVisible) return null;
