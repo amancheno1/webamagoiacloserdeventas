@@ -8,7 +8,8 @@
 
 # Environment variables for production
 [context.production.environment]
-  MAILCHIMP_API_KEY = "755b1aa1d0b9273ec7282c53140968b2-us7"
+  MAILCHIMP_CLIENT_ID = "524698205004"
+  MAILCHIMP_CLIENT_SECRET = "26ee66af3ae7305f86c190bf39f72b2bd093e31a9ed35397e"
   MAILCHIMP_LIST_ID = "05e07cf8da"
   NOTIFICATION_EMAIL = "amagoiavd@gmail.com"
 

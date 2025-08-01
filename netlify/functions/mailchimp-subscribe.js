@@ -1,10 +1,7 @@
-const mailchimp = require('@mailchimp/mailchimp_marketing');
-
-// Configure Mailchimp
-mailchimp.setConfig({
-  apiKey: process.env.MAILCHIMP_API_KEY || '755b1aa1d0b9273ec7282c53140968b2-us7',
-  server: 'us7',
-});
+// Direct form submission to Mailchimp using form endpoint
+const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID || '05e07cf8da';
+const MAILCHIMP_USER_ID = 'b8372036d3815e5a5d0df497a';
+const MAILCHIMP_SERVER = 'us7';
 
 exports.handler = async (event, context) => {
   // Only allow POST requests
@@ -26,18 +23,24 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Add member to Mailchimp list
-    // Using the "closer Web" list (ID: 05e07cf8da)
-    const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID || '05e07cf8da', {
-      email_address: email,
-      status: 'subscribed',
-      merge_fields: {
-        FNAME: name.split(' ')[0] || '',
-        LNAME: name.split(' ').slice(1).join(' ') || '',
-        PHONE: phone || '',
-        MMERGE6: message, // Custom field for message
+    // Submit directly to Mailchimp form endpoint
+    const formData = new URLSearchParams();
+    formData.append('u', MAILCHIMP_USER_ID);
+    formData.append('id', MAILCHIMP_LIST_ID);
+    formData.append('EMAIL', email);
+    formData.append('FNAME', name.split(' ')[0] || '');
+    formData.append('LNAME', name.split(' ').slice(1).join(' ') || '');
+    formData.append('PHONE', phone || '');
+    formData.append('MMERGE6', message);
+    
+    const mailchimpUrl = `https://gmail.${MAILCHIMP_SERVER}.list-manage.com/subscribe/post`;
+    
+    const response = await fetch(mailchimpUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      tags: ['website-contact'],
+      body: formData.toString(),
     });
 
     return {
@@ -50,35 +53,13 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ 
         success: true, 
         message: 'Successfully subscribed to Mailchimp',
-        id: response.id 
+        status: response.status
       }),
     };
 
   } catch (error) {
     console.error('Mailchimp subscription error:', error);
     
-    // Handle specific Mailchimp errors
-    if (error.response && error.response.body) {
-      const errorBody = error.response.body;
-      
-      // Member already exists
-      if (errorBody.title === 'Member Exists') {
-        return {
-          statusCode: 200,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          },
-          body: JSON.stringify({ 
-            success: true, 
-            message: 'Email already subscribed',
-            existing: true 
-          }),
-        };
-      }
-    }
-
     return {
       statusCode: 500,
       headers: {
