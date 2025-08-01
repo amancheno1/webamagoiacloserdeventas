@@ -254,12 +254,17 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="btn btn-lg w-100 py-3 rounded-pill fw-semibold text-white popup-submit-btn"
+                className="btn btn-lg w-100 py-3 rounded-pill fw-semibold text-white"
                 style={{
                   background: 'linear-gradient(135deg, #D4AF37, #D96941)',
                   border: 'none',
                   boxShadow: '0 8px 20px rgba(212, 175, 55, 0.3)',
                   transition: 'all 0.3s ease'
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://calendly.com/amagoiavd/30min', '_blank');
+                  onClose();
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
@@ -270,17 +275,10 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
                   e.currentTarget.style.boxShadow = '0 8px 20px rgba(212, 175, 55, 0.3)';
                 }}
               >
-                {isSubmitting ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Enviando...
-                  </>
-                ) : (
-                  <>
-                    <Calendar size={18} className="me-2" />
-                    Agenda Ya
-                  </>
-                )}
+                <>
+                  <Calendar size={18} className="me-2" />
+                  Agenda Ya
+                </>
               </button>
             </form>
 
