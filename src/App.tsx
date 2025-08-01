@@ -136,29 +136,44 @@ function App() {
     trackFormSubmission('contact_form');
 
     try {
-      // Submit to Netlify Forms (this will handle email notifications)
-      const formElement = e.target as HTMLFormElement;
-      const netlifyFormData = new FormData(formElement);
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(netlifyFormData as any).toString()
-      });
-      
-      if (response.ok) {
-        // Also submit to Mailchimp
-        try {
-          await submitToMailchimp(formData);
-        } catch (mailchimpError) {
-          console.error('Mailchimp submission failed:', mailchimpError);
-          // Don't fail the entire form if Mailchimp fails
-        }
-        
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', phone: '', message: '' });
+      // Submit directly to Mailchimp using the embedded script
+      // The Mailchimp script will handle the form submission
+      const mailchimpData = {
+        EMAIL: formData.email,
+        FNAME: formData.name.split(' ')[0] || '',
+        LNAME: formData.name.split(' ').slice(1).join(' ') || '',
+        PHONE: formData.phone || '',
+        MMERGE6: formData.message // Custom field for message
+      };
+
+      // Use Mailchimp's embedded form functionality
+      if (window.mc4wp && window.mc4wp.forms) {
+        // If MC4WP is available, use it
+        window.mc4wp.forms.on('subscribed', function() {
+          setSubmitStatus('success');
+          setFormData({ name: '', email: '', phone: '', message: '' });
+        });
       } else {
-        throw new Error('Network response was not ok');
+        // Fallback: Submit to our Netlify function that handles Mailchimp
+        const response = await fetch('/api/mailchimp-subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message
+          }),
+        });
+        
+        if (response.ok) {
+          setSubmitStatus('success');
+          setFormData({ name: '', email: '', phone: '', message: '' });
+        } else {
+          throw new Error('Network response was not ok');
+        }
       }
     } catch (error) {
       console.error('Form submission error:', error);
