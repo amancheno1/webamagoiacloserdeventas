@@ -1,20 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 import { Instagram, Facebook, Linkedin, Mail, Phone, TrendingUp, Award, Users, Calendar, Shield } from 'lucide-react';
-import CookiesPolicy from './CookiesPolicy';
-import PrivacyPolicy from './PrivacyPolicy';
+import LegalModal from './components/LegalModal';
+import { legalContent } from './data/legalContent';
 
 function App() {
-  const [showCookiesPolicy, setShowCookiesPolicy] = useState(false);
-  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-
-  if (showCookiesPolicy) {
-    return <CookiesPolicy onBack={() => setShowCookiesPolicy(false)} />;
-  }
-
-  if (showPrivacyPolicy) {
-    return <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />;
-  }
+  const [showLegalModal, setShowLegalModal] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: '', content: '' });
 
   return (
     <div className="min-h-screen" style={{
@@ -233,7 +225,13 @@ function App() {
         <div className="text-center">
           <div className="mb-3 flex justify-center space-x-6">
             <button 
-              onClick={() => setShowCookiesPolicy(true)}
+              onClick={() => {
+                setModalContent({
+                  title: 'Política de Cookies',
+                  content: legalContent.cookiesPolicy
+                });
+                setShowLegalModal(true);
+              }}
               className="inline-flex items-center space-x-2 text-sm transition-colors duration-300 hover:opacity-80"
               style={{ color: '#6E6E6E' }}
             >
@@ -241,7 +239,13 @@ function App() {
               <span>Política de Cookies</span>
             </button>
             <button 
-              onClick={() => setShowPrivacyPolicy(true)}
+              onClick={() => {
+                setModalContent({
+                  title: 'Política de Privacidad',
+                  content: legalContent.privacyPolicy
+                });
+                setShowLegalModal(true);
+              }}
               className="inline-flex items-center space-x-2 text-sm transition-colors duration-300 hover:opacity-80"
               style={{ color: '#6E6E6E' }}
             >
@@ -257,6 +261,13 @@ function App() {
           </p>
         </div>
       </div>
+      
+      <LegalModal
+        isOpen={showLegalModal}
+        onClose={() => setShowLegalModal(false)}
+        title={modalContent.title}
+        content={modalContent.content}
+      />
     </div>
   );
 }
