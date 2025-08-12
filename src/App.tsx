@@ -88,8 +88,10 @@ function App() {
   };
 
   const handleCookieAccept = () => {
-    // Show lead capture modal after accepting cookies
-    setShowLeadCapture(true);
+    // Show lead capture modal 6 seconds after accepting cookies
+    setTimeout(() => {
+      setShowLeadCapture(true);
+    }, 6000);
     
     // Enable all analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -101,8 +103,10 @@ function App() {
   };
 
   const handleCookieReject = () => {
-    // Show lead capture modal after rejecting cookies
-    setShowLeadCapture(true);
+    // Show lead capture modal 6 seconds after rejecting cookies
+    setTimeout(() => {
+      setShowLeadCapture(true);
+    }, 6000);
     
     // Disable optional analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -114,8 +118,10 @@ function App() {
   };
 
   const handleCookieConfigure = () => {
-    // Show lead capture modal after configuring cookies
-    setShowLeadCapture(true);
+    // Show lead capture modal 6 seconds after configuring cookies
+    setTimeout(() => {
+      setShowLeadCapture(true);
+    }, 6000);
     setShowCookieConfig(true);
   };
 
