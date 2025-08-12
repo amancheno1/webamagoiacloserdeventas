@@ -258,14 +258,14 @@ function App() {
         <div className="container py-5">
           <div className="text-center">
             <h1 className="display-2 font-serif fw-bold text-gray mb-4 hero-title" data-aos="fade-down" data-aos-delay="200">
-              Ventas con <span className="text-gold">alma</span>,<br />
-              poder con <span className="text-terracotta">propósito</span>
+              <span className="text-gold">Amagoia Louvier</span><br />
+              Closer de Ventas <span className="text-terracotta">Alto Ticket #1</span>
             </h1>
             <p className="lead text-gray mb-4 hero-subtitle" data-aos="fade-up" data-aos-delay="400">
-              <span className="text-gold fw-bold">Conecta.</span> <span className="text-terracotta fw-bold">Conquista.</span> <span className="text-lavender fw-bold">Cierra con conciencia.</span>
+              <span className="text-gold fw-bold">Especialista en Closing Alto Ticket Digital.</span> <span className="text-terracotta fw-bold">+15 años experiencia.</span> <span className="text-lavender fw-bold">Incrementa conversiones 300%.</span>
             </p>
             <p className="fs-5 mb-5" style={{ color: 'rgba(110, 110, 110, 0.8)' }} data-aos="fade-up" data-aos-delay="600">
-              Transformo conversaciones en decisiones, creando conexiones auténticas que generan resultados extraordinarios en ventas de alto ticket digital.
+              Closer de ventas alto ticket líder en España. Transformo conversaciones en decisiones con técnicas probadas de closing que generan resultados extraordinarios en ventas digitales de alto valor.
             </p>
             <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center" data-aos="fade-up" data-aos-delay="800">
               <button 
