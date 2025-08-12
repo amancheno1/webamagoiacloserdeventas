@@ -486,3 +486,55 @@ body {
     transform: translateY(-5px);
   }
 }
+
+/* Legal Modal Content Styles */
+.legal-content h4 {
+  color: #D4AF37;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.legal-content h5 {
+  color: #D96941;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.legal-content h6 {
+  color: #A48BB5;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.legal-content p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.legal-content ul, .legal-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.legal-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.legal-content strong {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+.legal-content br {
+  margin-bottom: 0.5rem;
+}
