@@ -52,8 +52,8 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
     trackFormSubmission('popup_form');
 
     try {
-      // Submit to Mailchimp via Netlify function
-      const response = await fetch('/api/mailchimp-subscribe', {
+      // Submit to Mailchimp via server function
+      const response = await fetch('https://amagoialouviercloserventasdigital.es/api/mailchimp-subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

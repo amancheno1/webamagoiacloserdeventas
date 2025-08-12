@@ -1,12 +1,12 @@
 [build]
-  functions = "netlify/functions"
+  functions = "functions"
   publish = "dist"
   command = "npm run build"
 
 [functions]
   node_bundler = "esbuild"
 
-# Environment variables for production
+# Environment variables
 [context.production.environment]
   MAILCHIMP_CLIENT_ID = "524698205004"
   MAILCHIMP_CLIENT_SECRET = "26ee66af3ae7305f86c190bf39f72b2bd093e31a9ed35397e"
@@ -15,5 +15,5 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "/.functions/:splat"
   status = 200

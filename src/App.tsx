@@ -155,7 +155,7 @@ function App() {
         });
       } else {
         // Fallback: Submit to our Netlify function that handles Mailchimp
-        const response = await fetch('/api/mailchimp-subscribe', {
+        const response = await fetch('https://amagoialouviercloserventasdigital.es/api/mailchimp-subscribe', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -645,16 +645,9 @@ function App() {
                   <form 
                     name="contact"
                     method="POST"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
+                    action="https://amagoialouviercloserventasdigital.es/contact"
                     onSubmit={handleSubmit}
                   >
-                    <input type="hidden" name="form-name" value="contact" />
-                    <div style={{ display: 'none' }}>
-                      <label>
-                        Don't fill this out if you're human: <input name="bot-field" />
-                      </label>
-                    </div>
                     <div className="mb-3">
                       <label className="form-label text-gray fw-medium">
                         <Users size={16} className="me-2 text-gold" />
