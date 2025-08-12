@@ -3,6 +3,7 @@ import AOS from 'aos';
 import { trackPageView } from './utils/analytics';
 import CookieBanner from './components/CookieBanner';
 import CookieConfigModal, { CookiePreferences } from './components/CookieConfigModal';
+import LeadCaptureModal from './components/LeadCaptureModal';
 import { 
   trackFormSubmission, 
   trackButtonClick, 
@@ -51,6 +52,7 @@ function App() {
     content: ''
   });
   const [showCookieConfig, setShowCookieConfig] = useState(false);
+  const [showLeadCapture, setShowLeadCapture] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -86,6 +88,9 @@ function App() {
   };
 
   const handleCookieAccept = () => {
+    // Show lead capture modal after accepting cookies
+    setShowLeadCapture(true);
+    
     // Enable all analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('consent', 'update', {
@@ -96,6 +101,9 @@ function App() {
   };
 
   const handleCookieReject = () => {
+    // Show lead capture modal after rejecting cookies
+    setShowLeadCapture(true);
+    
     // Disable optional analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('consent', 'update', {
@@ -106,6 +114,8 @@ function App() {
   };
 
   const handleCookieConfigure = () => {
+    // Show lead capture modal after configuring cookies
+    setShowLeadCapture(true);
     setShowCookieConfig(true);
   };
 
@@ -927,6 +937,14 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
         isOpen={showCookieConfig}
         onClose={() => setShowCookieConfig(false)}
         onSave={handleCookiePreferencesSave}
+      />
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={showLeadCapture}
+        onClose={() => setShowLeadCapture(false)}
+        onOpenLegal={openModal}
+        legalContent={legalContent}
       />
     </div>
   );
