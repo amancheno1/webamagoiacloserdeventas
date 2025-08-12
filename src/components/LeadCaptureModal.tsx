@@ -152,7 +152,7 @@ Enviado desde el formulario de lead capture
                 ¿Por qué necesitas un <span className="text-gold">Closer</span>?
               </h2>
               <p className="mb-3" style={{ color: 'rgba(110, 110, 110, 0.8)', lineHeight: '1.4', fontSize: '0.9rem' }}>
-                Agenda una llamada personalizada de 30 minutos y descubre los beneficios de contar con una especialista en ventas
+                Transforma tus ventas ahora con una llamada de 30 minutos
               </p>
             </div>
 
@@ -172,7 +172,7 @@ Enviado desde el formulario de lead capture
             <form onSubmit={handleSubmit} className="mb-3">
               <div className="row g-2 mb-3">
                 <div className="col-6">
-                  <label className="form-label text-gray fw-medium">
+                  <label className="form-label text-gray fw-medium" style={{ fontSize: '0.85rem' }}>
                     <User size={16} className="me-2 text-gold" />
                     Nombre *
                   </label>
@@ -181,13 +181,31 @@ Enviado desde el formulario de lead capture
                     name="nombre"
                     value={formData.nombre}
                     onChange={handleInputChange}
-                    className="form-control form-control-sm lead-input"
+                    className="form-control form-control-sm"
+                    style={{
+                      border: '2px solid rgba(212, 175, 55, 0.3)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(253, 248, 243, 0.8)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#D4AF37';
+                      e.target.style.backgroundColor = '#FDF8F3';
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(212, 175, 55, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                      e.target.style.backgroundColor = 'rgba(253, 248, 243, 0.8)';
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="Tu nombre"
                     required
                   />
                 </div>
                 <div className="col-6">
-                  <label className="form-label text-gray fw-medium">
+                  <label className="form-label text-gray fw-medium" style={{ fontSize: '0.85rem' }}>
                     <User size={16} className="me-2 text-gold" />
                     Apellidos *
                   </label>
@@ -196,7 +214,25 @@ Enviado desde el formulario de lead capture
                     name="apellidos"
                     value={formData.apellidos}
                     onChange={handleInputChange}
-                    className="form-control form-control-sm lead-input"
+                    className="form-control form-control-sm"
+                    style={{
+                      border: '2px solid rgba(212, 175, 55, 0.3)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(253, 248, 243, 0.8)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#D4AF37';
+                      e.target.style.backgroundColor = '#FDF8F3';
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(212, 175, 55, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                      e.target.style.backgroundColor = 'rgba(253, 248, 243, 0.8)';
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="Tus apellidos"
                     required
                   />
@@ -205,7 +241,7 @@ Enviado desde el formulario de lead capture
 
               <div className="row g-2 mb-3">
                 <div className="col-6">
-                  <label className="form-label text-gray fw-medium">
+                  <label className="form-label text-gray fw-medium" style={{ fontSize: '0.85rem' }}>
                     <Building size={16} className="me-2 text-terracotta" />
                     Empresa *
                   </label>
@@ -214,13 +250,31 @@ Enviado desde el formulario de lead capture
                     name="empresa"
                     value={formData.empresa}
                     onChange={handleInputChange}
-                    className="form-control form-control-sm lead-input"
+                    className="form-control form-control-sm"
+                    style={{
+                      border: '2px solid rgba(217, 105, 65, 0.3)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(253, 248, 243, 0.8)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#D96941';
+                      e.target.style.backgroundColor = '#FDF8F3';
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(217, 105, 65, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(217, 105, 65, 0.3)';
+                      e.target.style.backgroundColor = 'rgba(253, 248, 243, 0.8)';
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="Nombre de tu empresa"
                     required
                   />
                 </div>
                 <div className="col-6">
-                  <label className="form-label text-gray fw-medium">
+                  <label className="form-label text-gray fw-medium" style={{ fontSize: '0.85rem' }}>
                     <Phone size={16} className="me-2 text-terracotta" />
                     Teléfono *
                   </label>
@@ -229,7 +283,25 @@ Enviado desde el formulario de lead capture
                     name="telefono"
                     value={formData.telefono}
                     onChange={handleInputChange}
-                    className="form-control form-control-sm lead-input"
+                    className="form-control form-control-sm"
+                    style={{
+                      border: '2px solid rgba(217, 105, 65, 0.3)',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(253, 248, 243, 0.8)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#D96941';
+                      e.target.style.backgroundColor = '#FDF8F3';
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(217, 105, 65, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'rgba(217, 105, 65, 0.3)';
+                      e.target.style.backgroundColor = 'rgba(253, 248, 243, 0.8)';
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     placeholder="+34 xxx xxx xxx"
                     required
                   />
@@ -237,7 +309,7 @@ Enviado desde el formulario de lead capture
               </div>
 
               <div className="mb-2">
-                <label className="form-label text-gray fw-medium">
+                <label className="form-label text-gray fw-medium" style={{ fontSize: '0.85rem' }}>
                   <Mail size={16} className="me-2 text-lavender" />
                   Email *
                 </label>
@@ -246,7 +318,25 @@ Enviado desde el formulario de lead capture
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="form-control form-control-sm lead-input"
+                  className="form-control form-control-sm"
+                  style={{
+                    border: '2px solid rgba(164, 139, 181, 0.3)',
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(253, 248, 243, 0.8)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#A48BB5';
+                    e.target.style.backgroundColor = '#FDF8F3';
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 4px 12px rgba(164, 139, 181, 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(164, 139, 181, 0.3)';
+                    e.target.style.backgroundColor = 'rgba(253, 248, 243, 0.8)';
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = 'none';
+                  }}
                   placeholder="tu@email.com"
                   required
                 />
@@ -257,13 +347,21 @@ Enviado desde el formulario de lead capture
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-sm px-4 py-2 rounded-pill fw-bold text-white lead-cta-btn"
+                  className="btn btn-sm px-4 py-2 rounded-pill fw-bold text-white"
                   style={{
                     background: 'linear-gradient(135deg, #D4AF37, #D96941)',
                     border: 'none',
                     boxShadow: '0 8px 24px rgba(212, 175, 55, 0.4)',
                     transition: 'all 0.3s ease',
                     fontSize: '0.9rem'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-3px) scale(1.02)';
+                    e.target.style.boxShadow = '0 12px 32px rgba(212, 175, 55, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0) scale(1)';
+                    e.target.style.boxShadow = '0 8px 24px rgba(212, 175, 55, 0.4)';
                   }}
                 >
                   <Calendar size={18} className="me-2" />
@@ -277,7 +375,23 @@ Enviado desde el formulario de lead capture
                 <button 
                   type="button"
                   onClick={handleCalendlyDirect}
-                  className="btn btn-outline-gold btn-sm px-3 py-1 rounded-pill"
+                  className="btn btn-sm px-3 py-1 rounded-pill"
+                  style={{
+                    border: '2px solid #D4AF37',
+                    color: '#D4AF37',
+                    backgroundColor: 'transparent',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#D4AF37';
+                    e.target.style.color = 'white';
+                    e.target.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'transparent';
+                    e.target.style.color = '#D4AF37';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
                 >
                   Ir a Calendly
                 </button>
