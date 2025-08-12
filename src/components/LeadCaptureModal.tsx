@@ -139,11 +139,11 @@ Enviado desde el formulario de lead capture
               }}
             ></div>
             <img 
-              src="/assets/amagoia poerfil2.jpg" 
+              src="/assets/amagoia petfil1.jpg" 
               alt="Amagoia Louvier" 
               className="w-100"
               style={{ 
-                height: '300px', 
+                height: '200px', 
                 objectFit: 'cover',
                 objectPosition: 'center top'
               }}
@@ -152,14 +152,14 @@ Enviado desde el formulario de lead capture
 
           <div className="modal-body p-4 pt-0">
             {/* Logo */}
-            <div className="text-center mb-4" style={{ marginTop: '-40px', zIndex: 2, position: 'relative' }}>
+            <div className="text-center mb-3" style={{ marginTop: '-30px', zIndex: 2, position: 'relative' }}>
               <img 
                 src="/assets/logo amagoia.jpg" 
                 alt="Amagoia Louvier Logo" 
                 className="rounded-circle border border-4 bg-white"
                 style={{ 
-                  width: '80px', 
-                  height: '80px', 
+                  width: '60px', 
+                  height: '60px', 
                   objectFit: 'cover',
                   borderColor: '#D4AF37 !important',
                   boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
@@ -168,29 +168,29 @@ Enviado desde el formulario de lead capture
             </div>
 
             {/* Title and Subtitle */}
-            <div className="text-center mb-4">
-              <h2 className="h3 font-serif fw-bold text-gray mb-3">
+            <div className="text-center mb-3">
+              <h2 className="h4 font-serif fw-bold text-gray mb-2">
                 <span className="text-gold">Transforma</span> tus ventas <span className="text-terracotta">ahora</span>
               </h2>
-              <p className="fs-5 mb-4" style={{ color: 'rgba(110, 110, 110, 0.8)', lineHeight: '1.5' }}>
+              <p className="mb-3" style={{ color: 'rgba(110, 110, 110, 0.8)', lineHeight: '1.4', fontSize: '0.95rem' }}>
                 Agenda una llamada personalizada de 30 minutos y descubre los beneficios de contar con una especialista en ventas
               </p>
             </div>
 
             {/* Success/Error Messages */}
             {submitStatus === 'success' && (
-              <div className="alert alert-success text-center mb-4" role="alert">
+              <div className="alert alert-success text-center mb-3" role="alert">
                 <strong>¡Perfecto!</strong> Te redirigiremos a Calendly para agendar tu llamada.
               </div>
             )}
             {submitStatus === 'error' && (
-              <div className="alert alert-danger text-center mb-4" role="alert">
+              <div className="alert alert-danger text-center mb-3" role="alert">
                 <strong>Error:</strong> No se pudo procesar la solicitud. Inténtalo de nuevo.
               </div>
             )}
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="mb-4">
+            <form onSubmit={handleSubmit} className="mb-3">
               <div className="row g-3 mb-3">
                 <div className="col-md-6">
                   <label className="form-label text-gray fw-medium">
@@ -202,7 +202,7 @@ Enviado desde el formulario de lead capture
                     name="nombre"
                     value={formData.nombre}
                     onChange={handleInputChange}
-                    className="form-control form-control-lg lead-input"
+                    className="form-control lead-input"
                     placeholder="Tu nombre"
                     required
                   />
@@ -217,7 +217,7 @@ Enviado desde el formulario de lead capture
                     name="apellidos"
                     value={formData.apellidos}
                     onChange={handleInputChange}
-                    className="form-control form-control-lg lead-input"
+                    className="form-control lead-input"
                     placeholder="Tus apellidos"
                     required
                   />
@@ -235,7 +235,7 @@ Enviado desde el formulario de lead capture
                     name="empresa"
                     value={formData.empresa}
                     onChange={handleInputChange}
-                    className="form-control form-control-lg lead-input"
+                    className="form-control lead-input"
                     placeholder="Nombre de tu empresa"
                     required
                   />
@@ -250,14 +250,14 @@ Enviado desde el formulario de lead capture
                     name="telefono"
                     value={formData.telefono}
                     onChange={handleInputChange}
-                    className="form-control form-control-lg lead-input"
+                    className="form-control lead-input"
                     placeholder="+34 xxx xxx xxx"
                     required
                   />
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-3">
                 <label className="form-label text-gray fw-medium">
                   <Mail size={16} className="me-2 text-lavender" />
                   Email *
@@ -267,24 +267,24 @@ Enviado desde el formulario de lead capture
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="form-control form-control-lg lead-input"
+                  className="form-control lead-input"
                   placeholder="tu@email.com"
                   required
                 />
               </div>
 
               {/* CTA Button */}
-              <div className="text-center mb-4">
+              <div className="text-center mb-3">
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn btn-lg px-5 py-3 rounded-pill fw-bold text-white lead-cta-btn"
+                  className="btn px-4 py-2 rounded-pill fw-bold text-white lead-cta-btn"
                   style={{
                     background: 'linear-gradient(135deg, #D4AF37, #D96941)',
                     border: 'none',
                     boxShadow: '0 8px 24px rgba(212, 175, 55, 0.4)',
                     transition: 'all 0.3s ease',
-                    fontSize: '1.1rem'
+                    fontSize: '1rem'
                   }}
                 >
                   <Calendar size={20} className="me-2" />
@@ -293,7 +293,7 @@ Enviado desde el formulario de lead capture
               </div>
 
               {/* Alternative Direct Link */}
-              <div className="text-center mb-4">
+              <div className="text-center mb-3">
                 <p className="text-muted small mb-2">¿Prefieres ir directamente?</p>
                 <button 
                   type="button"
