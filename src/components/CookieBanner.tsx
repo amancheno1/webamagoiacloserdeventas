@@ -11,15 +11,11 @@ const CookieBanner: React.FC<CookieBannerProps> = ({ onAccept, onReject, onConfi
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Check if user has already made a choice
-    const cookieConsent = localStorage.getItem('cookieConsent');
-    if (!cookieConsent) {
-      // Show banner after a short delay
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
+    // Always show banner after a short delay
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAccept = () => {
