@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import { trackPageView } from './utils/analytics';
+import CookieBanner from './components/CookieBanner';
+import CookieConfigModal, { CookiePreferences } from './components/CookieConfigModal';
 import { 
   trackFormSubmission, 
   trackButtonClick, 
@@ -48,6 +50,7 @@ function App() {
     title: '',
     content: ''
   });
+  const [showCookieConfig, setShowCookieConfig] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -80,6 +83,40 @@ function App() {
 
   const closeModal = () => {
     setModalState({ isOpen: false, title: '', content: '' });
+  };
+
+  const handleCookieAccept = () => {
+    // Enable all analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted'
+      });
+    }
+  };
+
+  const handleCookieReject = () => {
+    // Disable optional analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied'
+      });
+    }
+  };
+
+  const handleCookieConfigure = () => {
+    setShowCookieConfig(true);
+  };
+
+  const handleCookiePreferencesSave = (preferences: CookiePreferences) => {
+    // Apply preferences to Google Analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: preferences.analytics ? 'granted' : 'denied',
+        ad_storage: preferences.marketing ? 'granted' : 'denied'
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -876,6 +913,20 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
         onClose={closeModal}
         title={modalState.title}
         content={modalState.content}
+      />
+
+      {/* Cookie Banner */}
+      <CookieBanner
+        onAccept={handleCookieAccept}
+        onReject={handleCookieReject}
+        onConfigure={handleCookieConfigure}
+      />
+
+      {/* Cookie Configuration Modal */}
+      <CookieConfigModal
+        isOpen={showCookieConfig}
+        onClose={() => setShowCookieConfig(false)}
+        onSave={handleCookiePreferencesSave}
       />
     </div>
   );
