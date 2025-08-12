@@ -261,11 +261,6 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
                   boxShadow: '0 8px 20px rgba(212, 175, 55, 0.3)',
                   transition: 'all 0.3s ease'
                 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open('https://calendly.com/amagoiavd/30min', '_blank');
-                  onClose();
-                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 12px 30px rgba(212, 175, 55, 0.4)';
@@ -275,10 +270,14 @@ const PopupForm: React.FC<PopupFormProps> = ({ isOpen, onClose }) => {
                   e.currentTarget.style.boxShadow = '0 8px 20px rgba(212, 175, 55, 0.3)';
                 }}
               >
-                <>
-                  <Calendar size={18} className="me-2" />
-                  Agenda Ya
-                </>
+                {isSubmitting ? (
+                  'Enviando...'
+                ) : (
+                  <>
+                    <Calendar size={18} className="me-2" />
+                    Transformar Mis Ventas
+                  </>
+                )}
               </button>
             </form>
 
