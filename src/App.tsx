@@ -306,7 +306,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               </p>
               <p className="fs-5 text-gray mb-4">
                 <strong className="text-terracotta">¿Qué es un Closer de Ventas?</strong> <br /> 
-                Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones,convietiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
+                Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones, convietiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
               </p>
               <p className="fs-5 text-gray mb-4">
                 <strong className="text-gold">¿Por qué necesitas una closer especializada?</strong> <br /> Porque el 80% de las ventas se pierden por falta de seguimiento profesional y técnicas de cierre inadecuadas. Yo convierto esas oportunidades perdidas en ingresos reales.
