@@ -163,7 +163,7 @@ Mensaje:
 ${formData.message}
 
 ---
-Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.app
+Enviado desde el formulario de contacto de amagoialouviercloserventasdigital.es
       `);
       
       const mailtoLink = `mailto:amagoialr@gmail.com?subject=${subject}&body=${body}`;
@@ -267,12 +267,11 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
             </p>
             <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center" data-aos="fade-up" data-aos-delay="800">
               <button 
-                onClick={() => scrollToSection('contacto')}
-                className="btn btn-gold btn-lg px-4 py-3 rounded-pill fw-semibold"
                 onClick={() => {
                   trackButtonClick('hero_transform_sales');
                   scrollToSection('contacto');
                 }}
+                className="btn btn-gold btn-lg px-4 py-3 rounded-pill fw-semibold"
               >
                 Transformar Mis Ventas
               </button>
@@ -306,7 +305,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               </p>
               <p className="fs-5 text-gray mb-4">
                 <strong className="text-terracotta">¿Qué es un Closer de Ventas?</strong> <br /> 
-                Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones, convietiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
+                Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones, convirtiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
               </p>
               <p className="fs-5 text-gray mb-4">
                 <strong className="text-gold">¿Por qué necesitas una closer especializada?</strong> <br /> Porque el 80% de las ventas se pierden por falta de seguimiento profesional y técnicas de cierre inadecuadas. Yo convierto esas oportunidades perdidas en ingresos reales.
@@ -353,8 +352,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         <TrendingUp className="text-white" size={32} />
                       </div>
                       <h3 className="h4 text-white mb-1">80%</h3>
-                      <p className="mb-0 text-white-50">Cierre Lanzamiento 
-                        High Ticket</p>
+                      <p className="mb-0 text-white-50">Cierre Lanzamiento High Ticket</p>
                     </div>
                   </div>
                   <div className="col-md-3" data-aos="zoom-in" data-aos-delay="400">
@@ -779,16 +777,16 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                   Privacidad
                 </button>
                 <button
-                  onClick={() => openModal('Términos y Condiciones', legalContent.termsOfService)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
-                >
-                  Términos
-                </button>
-                <button
                   onClick={() => openModal('Aviso Legal', legalContent.legalNotice)}
                   className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
                 >
                   Legal
+                </button>
+                <button
+                  onClick={() => openModal('Política de Cookies', legalContent.cookiesPolicy)}
+                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
+                >
+                  Cookies
                 </button>
               </div>
             </div>
@@ -819,6 +817,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       <LeadCaptureModal
         isOpen={showLeadCapture}
         onClose={() => setShowLeadCapture(false)}
+        onOpenLegal={openModal}
+        legalContent={legalContent}
       />
 
       {/* Schema.org JSON-LD */}
