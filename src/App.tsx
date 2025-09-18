@@ -1,58 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import AOS from 'aos';
-import { trackPageView } from './utils/analytics';
-import CookieBanner from './components/CookieBanner';
-import CookieConfigModal, { CookiePreferences } from './components/CookieConfigModal';
-import LeadCaptureModal from './components/LeadCaptureModal';
 import { 
-  trackFormSubmission, 
-  trackButtonClick, 
-  trackExternalLink, 
-  trackWhatsAppClick, 
-  trackSocialClick, 
-  trackConsultationBooking 
-} from './utils/analytics';
-import { 
-  Menu, 
-  X, 
   Phone, 
   Mail, 
   MapPin, 
-  Instagram, 
-  Facebook, 
-  MessageCircle, 
+  Star, 
   TrendingUp, 
   Users, 
-  Shield, 
-  Zap, 
   Target, 
-  BarChart3, 
-  BookOpen, 
   Award,
-  Heart,
-  Linkedin
+  CheckCircle,
+  ArrowRight,
+  Calendar,
+  MessageCircle,
+  BarChart3,
+  Zap,
+  Shield,
+  Clock
 } from 'lucide-react';
+import AOS from 'aos';
+import CookieBanner from './components/CookieBanner';
+import CookieConfigModal, { CookiePreferences } from './components/CookieConfigModal';
 import LegalModal from './components/LegalModal';
+import LeadCaptureModal from './components/LeadCaptureModal';
 import { legalContent } from './data/legalContent';
+import { 
+  trackButtonClick, 
+  trackWhatsAppClick, 
+  trackSocialClick, 
+  trackExternalLink,
+  trackConsultationBooking 
+} from './utils/analytics';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    title: '',
-    content: ''
-  });
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [showCookieConfig, setShowCookieConfig] = useState(false);
-  const [showLeadCapture, setShowLeadCapture] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState(false);
+  const [showLeadModal, setShowLeadModal] = useState(false);
+  const [legalModalContent, setLegalModalContent] = useState({ title: '', content: '' });
 
   useEffect(() => {
     AOS.init({
@@ -61,39 +45,22 @@ function App() {
       offset: 100
     });
 
-    // Track initial page view
-    trackPageView(window.location.pathname);
+    // Check if user has already made a cookie choice
+    const cookieConsent = localStorage.getItem('cookieConsent');
+    if (!cookieConsent) {
+      setShowCookieBanner(true);
+    }
 
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Show lead capture modal after 30 seconds
+    const leadTimer = setTimeout(() => {
+      setShowLeadModal(true);
+    }, 30000);
+
+    return () => clearTimeout(leadTimer);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
-
-  const openModal = (title: string, content: string) => {
-    setModalState({ isOpen: true, title, content });
-  };
-
-  const closeModal = () => {
-    setModalState({ isOpen: false, title: '', content: '' });
-  };
-
   const handleCookieAccept = () => {
-    // Show lead capture modal 6 seconds after accepting cookies
-    setTimeout(() => {
-      setShowLeadCapture(true);
-    }, 6000);
-    
-    // Enable all analytics
+    // Enable Google Analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('consent', 'update', {
         analytics_storage: 'granted',
@@ -103,12 +70,7 @@ function App() {
   };
 
   const handleCookieReject = () => {
-    // Show lead capture modal 6 seconds after rejecting cookies
-    setTimeout(() => {
-      setShowLeadCapture(true);
-    }, 6000);
-    
-    // Disable optional analytics
+    // Keep analytics disabled
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('consent', 'update', {
         analytics_storage: 'denied',
@@ -117,16 +79,11 @@ function App() {
     }
   };
 
-  const handleCookieConfigure = () => {
-    // Show lead capture modal 6 seconds after configuring cookies
-    setTimeout(() => {
-      setShowLeadCapture(true);
-    }, 6000);
+  const handleCookieConfig = () => {
     setShowCookieConfig(true);
   };
 
-  const handleCookiePreferencesSave = (preferences: CookiePreferences) => {
-    // Apply preferences to Google Analytics
+  const handleCookiePreferences = (preferences: CookiePreferences) => {
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('consent', 'update', {
         analytics_storage: preferences.analytics ? 'granted' : 'denied',
@@ -135,104 +92,80 @@ function App() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const openLegalModal = (title: string, content: string) => {
+    setLegalModalContent({ title, content });
+    setShowLegalModal(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    
-    // Track form submission
-    trackFormSubmission('contact_form');
+  const handleWhatsAppClick = () => {
+    trackWhatsAppClick();
+    trackExternalLink('https://wa.me/34672985178');
+  };
 
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent(`Nuevo contacto de ${formData.name} - Amagoia Louvier`);
-      const body = encodeURIComponent(`
-Nombre: ${formData.name}
-Email: ${formData.email}
-Teléfono: ${formData.phone || 'No proporcionado'}
+  const handleCalendlyClick = () => {
+    trackConsultationBooking();
+    trackExternalLink('https://calendly.com/amagoiavd/30min');
+  };
 
-Mensaje:
-${formData.message}
-
----
-Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.app
-      `);
-      
-      const mailtoLink = `mailto:amagoialr@gmail.com?subject=${subject}&body=${body}`;
-      
-      // Open email client
-      window.location.href = mailtoLink;
-      
-      // Show success message and reset form
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleInstagramClick = () => {
+    trackSocialClick('instagram');
+    trackExternalLink('https://www.instagram.com/amagoiavd/');
   };
 
   return (
-    <div className="smooth-scroll" style={{ backgroundColor: '#FDF8F3' }}>
-      {/* Header */}
-      <nav className={`navbar navbar-expand-lg fixed-top navbar-custom ${isScrolled ? 'navbar-scrolled' : ''}`}>
+    <div className="App">
+      {/* Navigation */}
+      <nav className="navbar navbar-expand-lg navbar-custom fixed-top">
         <div className="container">
-          <div className="navbar-brand d-flex align-items-center">
+          <a className="navbar-brand d-flex align-items-center" href="#inicio">
             <img 
               src="/assets/logo amagoia.jpg" 
-              alt="Amagoia Louvier Closer de Ventas - Logo" 
+              alt="Amagoia Louvier Logo" 
+              style={{ height: '50px', width: '50px', objectFit: 'cover' }}
               className="rounded-circle me-3"
-              style={{ width: '48px', height: '48px', objectFit: 'cover', border: '2px solid #D4AF37' }}
             />
             <div>
-              <h1 className="h5 mb-0 font-serif text-gray">Amagoia Louvier</h1>
-              <p className="small mb-0 text-terracotta">Closer de Ventas</p>
+              <span className="fw-bold text-gray font-serif" style={{ fontSize: '1.2rem' }}>
+                Amagoia Louvier
+              </span>
+              <div className="text-gold" style={{ fontSize: '0.8rem', lineHeight: '1' }}>
+                Closer de Ventas
+              </div>
             </div>
-          </div>
-
-          <button
-            className="navbar-toggler border-0"
-            type="button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            style={{ color: '#6E6E6E' }}
+          </a>
+          
+          <button 
+            className="navbar-toggler border-0" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarNav"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <span className="navbar-toggler-icon"></span>
           </button>
-
-          <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}>
+          
+          <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button onClick={() => scrollToSection('inicio')} className="nav-link btn btn-link text-gray fw-medium">
-                  Inicio
-                </button>
+                <a className="nav-link fw-semibold text-gray" href="#inicio">Inicio</a>
               </li>
               <li className="nav-item">
-                <button onClick={() => scrollToSection('sobre-mi')} className="nav-link btn btn-link text-gray fw-medium">
-                  Sobre Mí
-                </button>
+                <a className="nav-link fw-semibold text-gray" href="#sobre-mi">Sobre Mí</a>
               </li>
               <li className="nav-item">
-                <button onClick={() => scrollToSection('beneficios')} className="nav-link btn btn-link text-gray fw-medium">
-                  Beneficios
-                </button>
+                <a className="nav-link fw-semibold text-gray" href="#beneficios">Beneficios</a>
               </li>
               <li className="nav-item">
-                <button onClick={() => scrollToSection('servicios')} className="nav-link btn btn-link text-gray fw-medium">
-                  Servicios
-                </button>
+                <a className="nav-link fw-semibold text-gray" href="#servicios">Servicios</a>
               </li>
               <li className="nav-item">
-                <button onClick={() => scrollToSection('contacto')} className="nav-link btn btn-link text-gray fw-medium">
-                  Contacto
+                <a className="nav-link fw-semibold text-gray" href="#contacto">Contacto</a>
+              </li>
+              <li className="nav-item ms-2">
+                <button 
+                  className="btn btn-gold rounded-pill px-4 fw-semibold"
+                  onClick={() => setShowLeadModal(true)}
+                >
+                  Consulta Gratis
                 </button>
               </li>
             </ul>
@@ -240,222 +173,213 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
         </div>
       </nav>
 
-      {/* WhatsApp Float Button */}
-      <a
-        href="https://wa.me/34627985178"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whatsapp-float"
-        onClick={trackWhatsAppClick}
-      >
-        <MessageCircle size={24} />
-      </a>
-
       {/* Hero Section */}
-      <section id="inicio" className="hero-gradient d-flex align-items-center" style={{ minHeight: '100vh', paddingTop: '80px' }} data-aos="fade-up">
-        <div className="container py-5">
-          <div className="text-center">
-            <h1 className="display-2 font-serif fw-bold text-gray mb-4 hero-title" data-aos="fade-down" data-aos-delay="200">
-              Ventas con <span className="text-gold">alma</span>,<br />
-              poder con <span className="text-terracotta">propósito</span>
-            </h1>
-            <p className="lead text-gray mb-4 hero-subtitle" data-aos="fade-up" data-aos-delay="400">
-              <span className="text-gold fw-bold">Conecta.</span> <span className="text-terracotta fw-bold">Conquista.</span> <span className="text-lavender fw-bold">Cierra con conciencia.</span>
-            </p>
-            <p className="fs-5 mb-5" style={{ color: 'rgba(110, 110, 110, 0.8)' }} data-aos="fade-up" data-aos-delay="600">
-              Transformo conversaciones en decisiones, creando conexiones auténticas que generan resultados extraordinarios en ventas de alto ticket digital.
-            </p>
-            <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center" data-aos="fade-up" data-aos-delay="800">
-              <button 
-                onClick={() => scrollToSection('contacto')}
-                className="btn btn-gold btn-lg px-4 py-3 rounded-pill fw-semibold"
-                onClick={() => {
-                  trackButtonClick('hero_transform_sales');
-                  scrollToSection('contacto');
-                }}
-              >
-                Transformar Mis Ventas
-              </button>
-              <button 
-                onClick={() => {
-                  trackButtonClick('hero_know_more');
-                  scrollToSection('sobre-mi');
-                }}
-                className="btn btn-terracotta btn-lg px-4 py-3 rounded-pill fw-semibold"
-              >
-                Conocer Más
-              </button>
+      <section id="inicio" className="hero-gradient min-vh-100 d-flex align-items-center">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-6" data-aos="fade-right">
+              <h1 className="hero-title font-serif fw-bold text-gray mb-4">
+                Transformo <span className="text-gold">conversaciones</span> en <span className="text-terracotta">decisiones</span>
+              </h1>
+              <p className="lead text-gray mb-4" style={{ lineHeight: '1.8' }}>
+                Especialista en <strong className="text-lavender">closing de ventas de alto ticket digital</strong> con más de 8 años de experiencia. 
+                Incremento las conversiones hasta un <strong className="text-gold">35%</strong> con técnicas probadas y personalizadas para tu audiencia.
+              </p>
+              
+              <div className="d-flex flex-wrap gap-3 mb-5">
+                <button 
+                  className="btn btn-gold btn-lg rounded-pill px-5 fw-bold"
+                  onClick={() => setShowLeadModal(true)}
+                >
+                  <Calendar className="me-2" size={20} />
+                  Consulta Gratuita
+                </button>
+                <a 
+                  href="https://wa.me/34672985178" 
+                  className="btn btn-terracotta btn-lg rounded-pill px-5 fw-bold"
+                  onClick={handleWhatsAppClick}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="me-2" size={20} />
+                  WhatsApp
+                </a>
+              </div>
+
+              {/* Stats */}
+              <div className="stats-container">
+                <div className="row g-4">
+                  <div className="col-4" data-aos="fade-up" data-aos-delay="100">
+                    <div className="stat-item text-center">
+                      <div className="h2 fw-bold text-gold mb-1">8+</div>
+                      <div className="small text-gray">Años de Experiencia</div>
+                    </div>
+                  </div>
+                  <div className="col-4" data-aos="fade-up" data-aos-delay="200">
+                    <div className="stat-item text-center">
+                      <div className="h2 fw-bold text-terracotta mb-1">35%</div>
+                      <div className="small text-gray">Incremento Conversiones</div>
+                    </div>
+                  </div>
+                  <div className="col-4" data-aos="fade-up" data-aos-delay="300">
+                    <div className="stat-item text-center">
+                      <div className="h2 fw-bold text-lavender mb-1">500+</div>
+                      <div className="small text-gray">Clientes Satisfechos</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="col-lg-6" data-aos="fade-left">
+              <div className="text-center">
+                <img 
+                  src="/assets/amagoia petfil1.jpg" 
+                  alt="Amagoia Louvier - Especialista en Closing de Ventas" 
+                  className="profile-image img-fluid"
+                  style={{ maxWidth: '400px', width: '100%' }}
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="sobre-mi" className="py-5 bg-white">
-        <div className="container py-4">
-          <div className="row align-items-center mb-5" data-aos="fade-right">
-            <div className="col-lg-6">
-              <h2 className="display-4 font-serif fw-bold text-gray mb-4 section-title">
+      <section id="sobre-mi" className="py-5">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-6" data-aos="fade-right">
+              <img 
+                src="/assets/amagoia poerfil2.jpg" 
+                alt="Amagoia Louvier Perfil" 
+                className="profile-image img-fluid mb-4"
+              />
+            </div>
+            <div className="col-lg-6" data-aos="fade-left">
+              <h2 className="section-title font-serif fw-bold text-gray mb-4">
                 Sobre <span className="text-gold">Mí</span>
               </h2>
-              <p className="fs-5 text-gray mb-4">
-                Con más de <strong className="text-terracotta">15 años de experiencia</strong> en ventas, he desarrollado un enfoque único que combina técnicas de closing avanzadas con conexión emocional auténtica.
+              <p className="text-gray mb-4" style={{ lineHeight: '1.8' }}>
+                Soy <strong className="text-terracotta">Amagoia Louvier</strong>, especialista en closing de ventas de alto ticket digital 
+                con más de 8 años transformando conversaciones en decisiones de compra.
               </p>
-              <p className="fs-5 text-gray mb-4">
-                Mi metodología se basa en entender profundamente las necesidades del cliente, crear confianza genuina y guiar hacia decisiones que realmente transformen sus vidas y negocios.
+              <p className="text-gray mb-4" style={{ lineHeight: '1.8' }}>
+                Mi enfoque se basa en técnicas psicológicas avanzadas y estrategias personalizadas que han ayudado 
+                a más de 500 empresas a incrementar sus conversiones hasta un <strong className="text-gold">35%</strong>.
               </p>
-              <p className="fs-5 text-gray mb-4">
-                <strong className="text-terracotta">¿Qué es un Closer de Ventas?</strong> <br /> 
-                Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones, convietiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
-              </p>
-              <p className="fs-5 text-gray mb-4">
-                <strong className="text-gold">¿Por qué necesitas una closer especializada?</strong> <br /> Porque el 80% de las ventas se pierden por falta de seguimiento profesional y técnicas de cierre inadecuadas. Yo convierto esas oportunidades perdidas en ingresos reales.
-              </p>
-            </div>
-            <div className="col-lg-6 text-center" data-aos="fade-left">
-              <div className="position-relative">
-                <div 
-                  className="position-absolute w-100 h-100 rounded-4"
-                  style={{ 
-                    background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(164, 139, 181, 0.2))',
-                    transform: 'rotate(6deg)',
-                    top: 0,
-                    left: 0
-                  }}
-                ></div>
-                <img 
-                  src="/assets/amagoia poerfil2.jpg" 
-                  alt="Amagoia Louvier Closer de Ventas - Especialista en ventas de alto ticket digital" 
-                  className="profile-image position-relative"
-                  style={{ width: '400px', height: '480px', objectFit: 'cover' }}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div className="row justify-content-center" data-aos="fade-up">
-            <div className="col-lg-10">
-              <div className="stats-container p-4 rounded-4 shadow-lg" style={{ background: 'linear-gradient(135deg, #6E6E6E, rgba(110, 110, 110, 0.9))', border: '2px solid rgba(212, 175, 55, 0.3)' }}>
-                <div className="row g-4 text-center">
-                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="200">
-                    <div className="stat-item">
-                      <div className="gradient-mixed rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
-                        <Award className="text-white" size={32} />
-                      </div>
-                      <h3 className="h4 text-white mb-1">35%</h3>
-                      <p className="mb-0 text-white-50">Cierre Promedio Evergreen VSL</p>
-                    </div>
+              
+              <div className="row g-3 mb-4">
+                <div className="col-sm-6">
+                  <div className="achievement-badge text-center p-3">
+                    <Award className="text-white mb-2" size={32} />
+                    <div className="fw-bold text-white">Certificada</div>
+                    <div className="small text-white opacity-75">Closing Avanzado</div>
                   </div>
-                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="300">
-                    <div className="stat-item">
-                      <div className="bg-lavender rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
-                        <TrendingUp className="text-white" size={32} />
-                      </div>
-                      <h3 className="h4 text-white mb-1">80%</h3>
-                      <p className="mb-0 text-white-50">Cierre Lanzamiento 
-                        High Ticket</p>
-                    </div>
-                  </div>
-                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="400">
-                    <div className="stat-item">
-                      <div className="bg-gold rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
-                        <Target className="text-white" size={32} />
-                      </div>
-                      <h3 className="h4 text-white mb-1">1000€</h3>
-                      <p className="mb-0 text-white-50">Ticket Mínimo</p>
-                    </div>
-                  </div>
-                  <div className="col-md-3" data-aos="zoom-in" data-aos-delay="500">
-                    <div className="stat-item">
-                      <div className="bg-terracotta rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
-                        <TrendingUp className="text-white" size={32} />
-                      </div>
-                      <h3 className="h4 text-white mb-1">35%</h3>
-                      <p className="mb-0 text-white-50">Aumento de Ventas</p>
-                    </div>
+                </div>
+                <div className="col-sm-6">
+                  <div className="achievement-badge text-center p-3">
+                    <Target className="text-white mb-2" size={32} />
+                    <div className="fw-bold text-white">Especialista</div>
+                    <div className="small text-white opacity-75">Alto Ticket</div>
                   </div>
                 </div>
               </div>
+
+              <button 
+                className="btn btn-gold rounded-pill px-4 fw-semibold"
+                onClick={() => setShowLeadModal(true)}
+              >
+                Trabajemos Juntos
+                <ArrowRight className="ms-2" size={18} />
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section id="beneficios" className="py-5 benefits-gradient">
-        <div className="container py-4">
+      <section id="beneficios" className="benefits-gradient py-5">
+        <div className="container">
           <div className="text-center mb-5" data-aos="fade-up">
-            <h2 className="display-4 font-serif fw-bold text-gray mb-4 section-title">
-              ¿Listo para <span className="text-gold">transformar</span> tus ventas?
+            <h2 className="section-title font-serif fw-bold text-gray mb-3">
+              ¿Por qué necesitas un <span className="text-gold">Closer</span>?
             </h2>
-            <p className="fs-4 mb-0" style={{ color: 'rgba(110, 110, 110, 0.8)' }}>
-              Descubre los beneficios de trabajar con una closer especializada en alto ticket
+            <p className="lead text-gray">
+              Transforma tu proceso de ventas con técnicas probadas que generan resultados inmediatos
             </p>
           </div>
 
           <div className="row g-4">
-            <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-              <div className="card h-100 border-0 shadow-lg modern-card">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="modern-icon-circle bg-gold me-3">
-                      <TrendingUp size={24} className="text-white" />
-                    </div>
-                    <h3 className="h5 fw-bold mb-0 text-gray">Incremento de Ingresos</h3>
-                  </div>
-                  <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Aumenta un 35% de tus conversiones con técnicas de closing probadas y personalizadas para tu audiencia.
-                  </p>
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-gold text-white mb-3">
+                  <TrendingUp size={24} />
                 </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Incrementa Conversiones</h4>
+                <p className="text-gray mb-0">
+                  Aumenta tus ventas hasta un 35% con técnicas de closing probadas y personalizadas para tu audiencia específica.
+                </p>
               </div>
             </div>
 
-            <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
-              <div className="card h-100 border-0 shadow-lg modern-card">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="modern-icon-circle bg-terracotta me-3">
-                      <Users size={24} className="text-white" />
-                    </div>
-                    <h3 className="h5 fw-bold mb-0 text-gray">Reducción de tiempo</h3>
-                  </div>
-                  <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Libera un 40% de tus horas semanales para enfocarte en crear contenido mientras yo me encargo de cerrar tus ventas.
-                  </p>
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-terracotta text-white mb-3">
+                  <Clock size={24} />
                 </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Reduce Tiempo de Cierre</h4>
+                <p className="text-gray mb-0">
+                  Acorta el ciclo de ventas identificando y superando objeciones de manera eficiente y estratégica.
+                </p>
               </div>
             </div>
 
-            <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
-              <div className="card h-100 border-0 shadow-lg modern-card">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="modern-icon-circle bg-lavender me-3">
-                      <Shield size={24} className="text-white" />
-                    </div>
-                    <h3 className="h5 fw-bold mb-0 text-gray">Reducción de Riesgo</h3>
-                  </div>
-                  <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Minimiza las objeciones y rechazos con un enfoque estratégico basado en psicología de ventas.
-                  </p>
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-lavender text-white mb-3">
+                  <Users size={24} />
                 </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Mejora Experiencia Cliente</h4>
+                <p className="text-gray mb-0">
+                  Crea conexiones auténticas que generan confianza y facilitan la toma de decisiones de compra.
+                </p>
               </div>
             </div>
 
-            <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="800">
-              <div className="card h-100 border-0 shadow-lg modern-card">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="modern-icon-circle bg-gray me-3">
-                      <Zap size={24} className="text-white" />
-                    </div>
-                    <h3 className="h5 fw-bold mb-0 text-gray">Resultados Inmediatos</h3>
-                  </div>
-                  <p className="text-gray mb-0" style={{ lineHeight: '1.6' }}>
-                    Consigue mejoras en tus métricas de conversión desde la primera semana de implementación.
-                  </p>
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-gold text-white mb-3">
+                  <BarChart3 size={24} />
                 </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Maximiza ROI</h4>
+                <p className="text-gray mb-0">
+                  Optimiza cada interacción para obtener el máximo retorno de inversión en tus campañas de marketing.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-terracotta text-white mb-3">
+                  <Shield size={24} />
+                </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Estrategias Probadas</h4>
+                <p className="text-gray mb-0">
+                  Implementa técnicas respaldadas por 8+ años de experiencia y más de 500 casos de éxito.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+              <div className="modern-card h-100 p-4 text-center">
+                <div className="modern-icon-circle bg-lavender text-white mb-3">
+                  <Zap size={24} />
+                </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Resultados Inmediatos</h4>
+                <p className="text-gray mb-0">
+                  Ve mejoras en tus conversiones desde la primera semana de implementación de las estrategias.
+                </p>
               </div>
             </div>
           </div>
@@ -463,111 +387,128 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       </section>
 
       {/* Services Section */}
-      <section id="servicios" className="py-5 bg-white">
-        <div className="container py-4">
+      <section id="servicios" className="py-5">
+        <div className="container">
           <div className="text-center mb-5" data-aos="fade-up">
-            <h2 className="display-4 font-serif fw-bold text-gray mb-4 section-title">
-              Mis <span className="text-gold">Servicios</span>
+            <h2 className="section-title font-serif fw-bold text-gray mb-3">
+              Mis <span className="text-terracotta">Servicios</span>
             </h2>
-            <p className="fs-4 mb-0" style={{ color: 'rgba(110, 110, 110, 0.8)' }}>
-              Soluciones especializadas para maximizar tus ventas de alto ticket
+            <p className="lead text-gray">
+              Soluciones personalizadas para maximizar tus conversiones de alto ticket
             </p>
           </div>
 
           <div className="row g-4">
-            <div className="col-md-6" data-aos="fade-right" data-aos-delay="200">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-gold me-3">
-                      <Target size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Closing de Alto Ticket</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Manejo completo de llamadas de cierre para productos y servicios de alto valor.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Llamadas de descubrimiento</div>
-                    <div className="feature-item">• Presentaciones de venta</div>
-                    <div className="feature-item">• Manejo de objeciones</div>
-                    <div className="feature-item">• Cierre y seguimiento</div>
-                  </div>
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+              <div className="service-card card-hover h-100 p-4 bg-white shadow-sm">
+                <div className="service-icon-circle bg-gold text-white mb-4">
+                  <Target size={28} />
+                </div>
+                <h3 className="h4 fw-bold text-gray mb-3">Closing de Alto Ticket</h3>
+                <p className="text-gray mb-4">
+                  Especialización en cierre de ventas de productos y servicios de alto valor, 
+                  utilizando técnicas psicológicas avanzadas para maximizar conversiones.
+                </p>
+                <div className="service-features mb-4">
+                  <div className="feature-item">• Análisis de audiencia objetivo</div>
+                  <div className="feature-item">• Técnicas de persuasión avanzada</div>
+                  <div className="feature-item">• Manejo de objeciones complejas</div>
+                  <div className="feature-item">• Seguimiento post-venta</div>
+                </div>
+                <div className="text-center">
+                  <button 
+                    className="btn btn-gold rounded-pill px-4 fw-semibold"
+                    onClick={() => setShowLeadModal(true)}
+                  >
+                    Más Información
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="col-md-6" data-aos="fade-left" data-aos-delay="200">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-terracotta me-3">
-                      <BookOpen size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Consultoría en Ventas</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Análisis y optimización completa de tus procesos de venta actuales.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Auditoría de procesos</div>
-                    <div className="feature-item">• Optimización de scripts</div>
-                    <div className="feature-item">• Estrategias personalizadas</div>
-                    <div className="feature-item">• Formación del equipo</div>
-                  </div>
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+              <div className="service-card card-hover h-100 p-4 bg-white shadow-sm">
+                <div className="service-icon-circle bg-terracotta text-white mb-4">
+                  <BarChart3 size={28} />
+                </div>
+                <h3 className="h4 fw-bold text-gray mb-3">Consultoría en Ventas</h3>
+                <p className="text-gray mb-4">
+                  Análisis completo de tu proceso de ventas actual y optimización 
+                  estratégica para incrementar conversiones y reducir tiempos de cierre.
+                </p>
+                <div className="service-features mb-4">
+                  <div className="feature-item">• Auditoría de proceso actual</div>
+                  <div className="feature-item">• Identificación de puntos débiles</div>
+                  <div className="feature-item">• Plan de optimización</div>
+                  <div className="feature-item">• Implementación guiada</div>
+                </div>
+                <div className="text-center">
+                  <button 
+                    className="btn btn-terracotta rounded-pill px-4 fw-semibold text-white"
+                    onClick={() => setShowLeadModal(true)}
+                  >
+                    Más Información
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="col-md-6" data-aos="fade-right" data-aos-delay="400">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-lavender me-3">
-                      <BarChart3 size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Análisis de Conversión</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Evaluación detallada de tus métricas y optimización de embudos de venta.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Análisis de métricas</div>
-                    <div className="feature-item">• Optimización de embudos</div>
-                    <div className="feature-item">• Reportes detallados</div>
-                    <div className="feature-item">• Recomendaciones estratégicas</div>
-                  </div>
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+              <div className="service-card card-hover h-100 p-4 bg-white shadow-sm">
+                <div className="service-icon-circle bg-lavender text-white mb-4">
+                  <Users size={28} />
+                </div>
+                <h3 className="h4 fw-bold text-gray mb-3">Entrenamiento de Equipos</h3>
+                <p className="text-gray mb-4">
+                  Formación especializada para equipos de ventas en técnicas de closing, 
+                  manejo de objeciones y psicología del consumidor de alto ticket.
+                </p>
+                <div className="service-features mb-4">
+                  <div className="feature-item">• Workshops personalizados</div>
+                  <div className="feature-item">• Role-playing avanzado</div>
+                  <div className="feature-item">• Optimización de scripts</div>
+                  <div className="feature-item">• Estrategias personalizadas</div>
+                </div>
+                <div className="text-center">
+                  <button 
+                    className="btn btn-lavender rounded-pill px-4 fw-semibold text-white"
+                    onClick={() => setShowLeadModal(true)}
+                  >
+                    Más Información
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="col-md-6" data-aos="fade-left" data-aos-delay="400">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-gray me-3">
-                      <Heart size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Formación Personalizada</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Capacitación especializada en técnicas de closing y ventas conscientes.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Workshops personalizados</div>
-                    <div className="feature-item">• Técnicas de closing</div>
-                    <div className="feature-item">• Práctica supervisada</div>
-                    <div className="feature-item">• Seguimiento continuo</div>
-                  </div>
-                </div>
+          {/* CTA Section */}
+          <div className="consultation-box mt-5" data-aos="fade-up">
+            <div className="text-center">
+              <h3 className="h4 fw-bold text-gray mb-3">
+                ¿Listo para transformar tus ventas?
+              </h3>
+              <p className="text-gray mb-4">
+                Agenda una consulta gratuita de 30 minutos y descubre cómo puedo ayudarte 
+                a incrementar tus conversiones de alto ticket.
+              </p>
+              <div className="d-flex flex-wrap justify-content-center gap-3">
+                <button 
+                  className="btn btn-gold btn-lg rounded-pill px-5 fw-bold"
+                  onClick={() => setShowLeadModal(true)}
+                >
+                  <Calendar className="me-2" size={20} />
+                  Consulta Gratuita
+                </button>
+                <a 
+                  href="https://calendly.com/amagoiavd/30min" 
+                  className="btn btn-terracotta btn-lg rounded-pill px-5 fw-bold"
+                  onClick={handleCalendlyClick}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Clock className="me-2" size={20} />
+                  Calendly Directo
+                </a>
               </div>
             </div>
           </div>
@@ -575,137 +516,125 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       </section>
 
       {/* Contact Section */}
-      <section id="contacto" className="py-5 contact-gradient">
-        <div className="container py-4">
+      <section id="contacto" className="contact-gradient py-5">
+        <div className="container">
           <div className="text-center mb-5" data-aos="fade-up">
-            <h2 className="display-4 font-serif fw-bold text-white mb-4 section-title">
-              ¿Listo para <span className="text-gold">transformar</span> tus ventas?
+            <h2 className="section-title font-serif fw-bold text-gray mb-3">
+              Hablemos de tu <span className="text-gold">Proyecto</span>
             </h2>
-            <p className="fs-4 mb-0 text-white-75">
-              Conectemos y descubre cómo puedo ayudarte a alcanzar tus objetivos
+            <p className="lead text-gray">
+              Estoy aquí para ayudarte a transformar tus conversaciones en decisiones de compra
             </p>
           </div>
 
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <div className="row g-4 mb-5">
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-gold mx-auto mb-3">
-                      <Phone size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Teléfono</h4>
-                    <a href="tel:+34627985178" className="text-white-75 text-decoration-none">
-                      +34 627 985 178
+          <div className="row g-4">
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+              <div className="contact-info-card p-4 h-100">
+                <div className="contact-icon-wrapper mb-3">
+                  <Phone className="text-gold" size={24} />
+                </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Teléfono</h4>
+                <div className="contact-info-item mb-3">
+                  <div className="contact-info-icon">
+                    <Phone className="text-terracotta" size={20} />
+                  </div>
+                  <div>
+                    <div className="fw-semibold text-gray">Llamada Directa</div>
+                    <a href="tel:+34672985178" className="text-decoration-none text-gray">
+                      +34 672 985 178
                     </a>
                   </div>
                 </div>
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="400">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-terracotta mx-auto mb-3">
-                      <Mail size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Email</h4>
-                    <a href="mailto:amagoialr@gmail.com" className="text-white-75 text-decoration-none">
+                <div className="contact-info-item">
+                  <div className="contact-info-icon">
+                    <MessageCircle className="text-gold" size={20} />
+                  </div>
+                  <div>
+                    <div className="fw-semibold text-gray">WhatsApp</div>
+                    <a 
+                      href="https://wa.me/34672985178" 
+                      className="text-decoration-none text-gray"
+                      onClick={handleWhatsAppClick}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Mensaje directo
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+              <div className="contact-info-card p-4 h-100">
+                <div className="contact-icon-wrapper mb-3">
+                  <Mail className="text-terracotta" size={24} />
+                </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Email</h4>
+                <div className="contact-info-item mb-3">
+                  <div className="contact-info-icon">
+                    <Mail className="text-lavender" size={20} />
+                  </div>
+                  <div>
+                    <div className="fw-semibold text-gray">Contacto Profesional</div>
+                    <a href="mailto:amagoialr@gmail.com" className="text-decoration-none text-gray">
                       amagoialr@gmail.com
                     </a>
                   </div>
                 </div>
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="600">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-lavender mx-auto mb-3">
-                      <MapPin size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Ubicación</h4>
-                    <p className="text-white-75 mb-0">España</p>
+                <div className="contact-info-item">
+                  <div className="contact-info-icon">
+                    <Calendar className="text-gold" size={20} />
+                  </div>
+                  <div>
+                    <div className="fw-semibold text-gray">Agenda una Cita</div>
+                    <a 
+                      href="https://calendly.com/amagoiavd/30min" 
+                      className="text-decoration-none text-gray"
+                      onClick={handleCalendlyClick}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Calendly
+                    </a>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="card border-0 shadow-lg" data-aos="fade-up" data-aos-delay="800">
-                <div className="card-body p-4">
-                  <div className="row align-items-center">
-                    <div className="col-md-4 text-center mb-4 mb-md-0">
-                      <img 
-                        src="/assets/amagoia poerfil2.jpg" 
-                        alt="Amagoia Louvier Closer de Ventas - Contacto y servicios de closing" 
-                        className="rounded-circle shadow-lg"
-                        style={{ width: '200px', height: '200px', objectFit: 'cover', border: '4px solid #D4AF37' }}
-                      />
-                    </div>
-                    <div className="col-md-8">
-                      <h3 className="h4 fw-bold text-gray mb-3">Hablemos de tu proyecto</h3>
-                      <form onSubmit={handleSubmit}>
-                        <div className="row g-3">
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              name="name"
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu nombre"
-                              required
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <input
-                              type="email"
-                              name="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu email"
-                              required
-                            />
-                          </div>
-                          <div className="col-12">
-                            <input
-                              type="tel"
-                              name="phone"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu teléfono (opcional)"
-                            />
-                          </div>
-                          <div className="col-12">
-                            <textarea
-                              name="message"
-                              value={formData.message}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              rows={4}
-                              placeholder="Cuéntame sobre tu proyecto y objetivos..."
-                              required
-                            ></textarea>
-                          </div>
-                          <div className="col-12">
-                            <button
-                              type="submit"
-                              disabled={isSubmitting}
-                              className="btn btn-gold btn-lg w-100 fw-semibold"
-                              onClick={() => trackButtonClick('contact_form_submit')}
-                            >
-                              {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                      
-                      {submitStatus === 'success' && (
-                        <div className="alert alert-success mt-3" role="alert">
-                          ¡Mensaje enviado! Te contactaré pronto.
-                        </div>
-                      )}
-                      
-                      {submitStatus === 'error' && (
-                        <div className="alert alert-danger mt-3" role="alert">
-                          Error al enviar el mensaje. Inténtalo de nuevo.
-                        </div>
-                      )}
-                    </div>
+            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+              <div className="contact-social-card p-4 h-100">
+                <div className="contact-icon-wrapper mb-3">
+                  <Users className="text-lavender" size={24} />
+                </div>
+                <h4 className="h5 fw-bold text-gray mb-3">Redes Sociales</h4>
+                <div className="contact-info-item mb-3">
+                  <div className="contact-info-icon">
+                    <MessageCircle className="text-terracotta" size={20} />
                   </div>
+                  <div>
+                    <div className="fw-semibold text-gray">Instagram</div>
+                    <a 
+                      href="https://www.instagram.com/amagoiavd/" 
+                      className="text-decoration-none text-gray"
+                      onClick={handleInstagramClick}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      @amagoiavd
+                    </a>
+                  </div>
+                </div>
+                <div className="text-center mt-4">
+                  <a 
+                    href="https://www.instagram.com/amagoiavd/" 
+                    className="social-icon social-3d instagram-gradient text-white"
+                    onClick={handleInstagramClick}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MessageCircle size={24} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -714,586 +643,98 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       </section>
 
       {/* Footer */}
-      <footer className="py-4 bg-gray text-white">
+      <footer className="bg-gray text-white py-4">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center mb-3 mb-md-0">
                 <img 
                   src="/assets/logo amagoia.jpg" 
-                  alt="Closer de Ventas - Logo Amagoia Louvier" 
+                  alt="Amagoia Louvier Logo" 
+                  style={{ height: '40px', width: '40px', objectFit: 'cover' }}
                   className="rounded-circle me-3"
-                  style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                 />
                 <div>
-                  <h5 className="mb-0 font-serif">Amagoia Louvier</h5>
-                  <p className="small mb-0 text-white-75">Closer de Ventas</p>
+                  <div className="fw-bold">Amagoia Louvier</div>
+                  <div className="small opacity-75">Especialista en Closing de Ventas</div>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 text-md-end mt-3 mt-md-0">
-              <div className="d-flex justify-content-md-end gap-3">
-                <a 
-                  href="https://www.instagram.com/amagoialouvier/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('instagram')}
-                >
-                  <Instagram size={20} />
-                </a>
-                <a 
-                  href="https://www.facebook.com/amagoia.louvier" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('facebook')}
-                >
-                  <Facebook size={20} />
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/amagoia-louvier/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('linkedin')}
-                >
-                  <Linkedin size={20} />
-                </a>
-              </div>
-            </div>
-          </div>
-          <hr className="my-3 border-white-25" />
-          <div className="row align-items-center">
             <div className="col-md-6">
-              <p className="small mb-0 text-white-75">
-                © 2024 Amagoia Louvier. Todos los derechos reservados.
-              </p>
-            </div>
-            <div className="col-md-6 text-md-end mt-2 mt-md-0">
-              <div className="d-flex justify-content-md-end gap-3">
+              <div className="d-flex justify-content-md-end justify-content-center gap-3 flex-wrap">
                 <button
-                  onClick={() => openModal('Política de Privacidad', legalContent.privacyPolicy)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
+                  type="button"
+                  onClick={() => openLegalModal('Política de Privacidad', legalContent.privacyPolicy)}
+                  className="btn btn-link text-white-50 p-0 small"
+                  style={{ textDecoration: 'none' }}
                 >
                   Privacidad
                 </button>
                 <button
-                  onClick={() => openModal('Términos y Condiciones', legalContent.termsOfService)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
-                >
-                  Términos
-                </button>
-                <button
-                  onClick={() => openModal('Aviso Legal', legalContent.legalNotice)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
+                  type="button"
+                  onClick={() => openLegalModal('Aviso Legal', legalContent.legalNotice)}
+                  className="btn btn-link text-white-50 p-0 small"
+                  style={{ textDecoration: 'none' }}
                 >
                   Legal
                 </button>
+                <button
+                  type="button"
+                  onClick={() => openLegalModal('Política de Cookies', legalContent.cookiesPolicy)}
+                  className="btn btn-link text-white-50 p-0 small"
+                  style={{ textDecoration: 'none' }}
+                >
+                  Cookies
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </footer>
-
-      {/* Modals */}
-      <LegalModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        title={modalState.title}
-        content={modalState.content}
-      />
-
-      <CookieBanner
-        onAccept={handleCookieAccept}
-        onReject={handleCookieReject}
-        onConfigure={handleCookieConfigure}
-      />
-
-      <CookieConfigModal
-        isOpen={showCookieConfig}
-        onClose={() => setShowCookieConfig(false)}
-        onSave={handleCookiePreferencesSave}
-      />
-
-      <LeadCaptureModal
-        isOpen={showLeadCapture}
-        onClose={() => setShowLeadCapture(false)}
-      />
-
-      {/* Schema.org JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Amagoia Louvier",
-            "jobTitle": "Closer de Ventas",
-            "description": "Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Transformo conversaciones en decisiones, creando conexiones auténticas que generan resultados extraordinarios.",
-            "url": "https://amagoialouviercloserventasdigital.es",
-            "image": "https://amagoialouviercloserventasdigital.es/assets/amagoia%20poerfil2.jpg",
-            "email": "amagoialr@gmail.com",
-            "telephone": "+34627985178",
-            "address": {
-              "@type": "PostalAddress",
-              "addressCountry": "ES"
-            },
-            "sameAs": [
-              "https://www.instagram.com/amagoialouvier/",
-              "https://www.facebook.com/amagoia.louvier",
-              "https://www.linkedin.com/in/amagoia-louvier/"
-            ],
-            "knowsAbout": [
-              "Closing de ventas",
-              "Ventas de alto ticket",
-              "Consultoría en ventas",
-              "Psicología de ventas",
-              "Marketing digital",
-              "Conversión de leads"
-            ],
-            "hasCredential": [
-              {
-                "@type": "EducationalOccupationalCredential",
-                "name": "15+ años de experiencia en ventas"
-              }
-            ],
-            "award": [
-              "35% de cierre promedio en Evergreen VSL",
-              "80% de cierre en lanzamientos High Ticket",
-              "35% de aumento en ventas para clientes"
-            ],
-            "offers": [
-              {
-                "@type": "Service",
-                "name": "Closing de Alto Ticket",
-                "description": "Manejo completo de llamadas de cierre para productos y servicios de alto valor",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Consultoría en Ventas",
-                "description": "Análisis y optimización completa de procesos de venta actuales",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Análisis de Conversión",
-                "description": "Evaluación detallada de métricas y optimización de embudos de venta",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Formación Personalizada",
-                "description": "Capacitación especializada en técnicas de closing y ventas conscientes",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              }
-            ]
-          })
-        }}
-      />
-    </div>
-  );
-}
-
-export default App;
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6" data-aos="fade-right" data-aos-delay="400">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-lavender me-3">
-                      <BarChart3 size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Análisis de Conversión</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Evaluación detallada de tus métricas y optimización de embudos de venta.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Análisis de métricas</div>
-                    <div className="feature-item">• Optimización de embudos</div>
-                    <div className="feature-item">• Reportes detallados</div>
-                    <div className="feature-item">• Recomendaciones estratégicas</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6" data-aos="fade-left" data-aos-delay="400">
-              <div className="card service-card h-100 border-0 shadow-lg bg-white">
-                <div className="card-body p-4">
-                  <div className="d-flex align-items-start mb-4">
-                    <div className="service-icon-circle bg-gray me-3">
-                      <Heart size={28} className="text-white" />
-                    </div>
-                    <div className="flex-grow-1">
-                      <h4 className="h4 fw-bold mb-2 text-gray">Formación Personalizada</h4>
-                      <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
-                        Capacitación especializada en técnicas de closing y ventas conscientes.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="service-features">
-                    <div className="feature-item">• Workshops personalizados</div>
-                    <div className="feature-item">• Técnicas de closing</div>
-                    <div className="feature-item">• Práctica supervisada</div>
-                    <div className="feature-item">• Seguimiento continuo</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contacto" className="py-5 contact-gradient">
-        <div className="container py-4">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <h2 className="display-4 font-serif fw-bold text-white mb-4 section-title">
-              ¿Listo para <span className="text-gold">transformar</span> tus ventas?
-            </h2>
-            <p className="fs-4 mb-0 text-white-75">
-              Conectemos y descubre cómo puedo ayudarte a alcanzar tus objetivos
+          <hr className="my-3 opacity-25" />
+          <div className="text-center">
+            <p className="mb-0 small opacity-75">
+              © 2024 Amagoia Louvier. Todos los derechos reservados.
             </p>
           </div>
-
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <div className="row g-4 mb-5">
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="200">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-gold mx-auto mb-3">
-                      <Phone size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Teléfono</h4>
-                    <a href="tel:+34627985178" className="text-white-75 text-decoration-none">
-                      +34 627 985 178
-                    </a>
-                  </div>
-                </div>
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="400">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-terracotta mx-auto mb-3">
-                      <Mail size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Email</h4>
-                    <a href="mailto:amagoialr@gmail.com" className="text-white-75 text-decoration-none">
-                      amagoialr@gmail.com
-                    </a>
-                  </div>
-                </div>
-                <div className="col-md-4 text-center" data-aos="fade-up" data-aos-delay="600">
-                  <div className="contact-item">
-                    <div className="contact-icon-circle bg-lavender mx-auto mb-3">
-                      <MapPin size={24} className="text-white" />
-                    </div>
-                    <h4 className="h5 fw-bold text-white mb-2">Ubicación</h4>
-                    <p className="text-white-75 mb-0">España</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card border-0 shadow-lg" data-aos="fade-up" data-aos-delay="800">
-                <div className="card-body p-4">
-                  <div className="row align-items-center">
-                    <div className="col-md-4 text-center mb-4 mb-md-0">
-                      <img 
-                        src="/assets/amagoia poerfil2.jpg" 
-                        alt="Amagoia Louvier Closer de Ventas - Contacto y servicios de closing" 
-                        className="rounded-circle shadow-lg"
-                        style={{ width: '200px', height: '200px', objectFit: 'cover', border: '4px solid #D4AF37' }}
-                      />
-                    </div>
-                    <div className="col-md-8">
-                      <h3 className="h4 fw-bold text-gray mb-3">Hablemos de tu proyecto</h3>
-                      <form onSubmit={handleSubmit}>
-                        <div className="row g-3">
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              name="name"
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu nombre"
-                              required
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <input
-                              type="email"
-                              name="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu email"
-                              required
-                            />
-                          </div>
-                          <div className="col-12">
-                            <input
-                              type="tel"
-                              name="phone"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              placeholder="Tu teléfono (opcional)"
-                            />
-                          </div>
-                          <div className="col-12">
-                            <textarea
-                              name="message"
-                              value={formData.message}
-                              onChange={handleInputChange}
-                              className="form-control form-control-lg"
-                              rows={4}
-                              placeholder="Cuéntame sobre tu proyecto y objetivos..."
-                              required
-                            ></textarea>
-                          </div>
-                          <div className="col-12">
-                            <button
-                              type="submit"
-                              disabled={isSubmitting}
-                              className="btn btn-gold btn-lg w-100 fw-semibold"
-                              onClick={() => trackButtonClick('contact_form_submit')}
-                            >
-                              {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                      
-                      {submitStatus === 'success' && (
-                        <div className="alert alert-success mt-3" role="alert">
-                          ¡Mensaje enviado! Te contactaré pronto.
-                        </div>
-                      )}
-                      
-                      {submitStatus === 'error' && (
-                        <div className="alert alert-danger mt-3" role="alert">
-                          Error al enviar el mensaje. Inténtalo de nuevo.
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-4 bg-gray text-white">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <div className="d-flex align-items-center">
-                <img 
-                  src="/assets/logo amagoia.jpg" 
-                  alt="Closer de Ventas - Logo Amagoia Louvier" 
-                  className="rounded-circle me-3"
-                  style={{ width: '40px', height: '40px', objectFit: 'cover' }}
-                />
-                <div>
-                  <h5 className="mb-0 font-serif">Amagoia Louvier</h5>
-                  <p className="small mb-0 text-white-75">Closer de Ventas</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 text-md-end mt-3 mt-md-0">
-              <div className="d-flex justify-content-md-end gap-3">
-                <a 
-                  href="https://www.instagram.com/amagoialouvier/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('instagram')}
-                >
-                  <Instagram size={20} />
-                </a>
-                <a 
-                  href="https://www.facebook.com/amagoia.louvier" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('facebook')}
-                >
-                  <Facebook size={20} />
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/amagoia-louvier/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-white-75 hover-gold"
-                  onClick={() => trackSocialClick('linkedin')}
-                >
-                  <Linkedin size={20} />
-                </a>
-              </div>
-            </div>
-          </div>
-          <hr className="my-3 border-white-25" />
-          <div className="row align-items-center">
-            <div className="col-md-6">
-              <p className="small mb-0 text-white-75">
-                © 2024 Amagoia Louvier. Todos los derechos reservados.
-              </p>
-            </div>
-            <div className="col-md-6 text-md-end mt-2 mt-md-0">
-              <div className="d-flex justify-content-md-end gap-3">
-                <button
-                  onClick={() => openModal('Política de Privacidad', legalContent.privacyPolicy)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
-                >
-                  Privacidad
-                </button>
-                <button
-                  onClick={() => openModal('Términos y Condiciones', legalContent.termsOfService)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
-                >
-                  Términos
-                </button>
-                <button
-                  onClick={() => openModal('Aviso Legal', legalContent.legalNotice)}
-                  className="btn btn-link text-white-75 p-0 small text-decoration-none hover-gold"
-                >
-                  Legal
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </footer>
 
-      {/* Modals */}
-      <LegalModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        title={modalState.title}
-        content={modalState.content}
-      />
+      {/* WhatsApp Float Button */}
+      <a 
+        href="https://wa.me/34672985178" 
+        className="whatsapp-float"
+        onClick={handleWhatsAppClick}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Contactar por WhatsApp"
+      >
+        <MessageCircle size={28} />
+      </a>
 
-      <CookieBanner
+      {/* Modals */}
+      <CookieBanner 
         onAccept={handleCookieAccept}
         onReject={handleCookieReject}
-        onConfigure={handleCookieConfigure}
+        onConfigure={handleCookieConfig}
       />
 
-      <CookieConfigModal
+      <CookieConfigModal 
         isOpen={showCookieConfig}
         onClose={() => setShowCookieConfig(false)}
-        onSave={handleCookiePreferencesSave}
+        onSave={handleCookiePreferences}
       />
 
-      <LeadCaptureModal
-        isOpen={showLeadCapture}
-        onClose={() => setShowLeadCapture(false)}
+      <LegalModal 
+        isOpen={showLegalModal}
+        onClose={() => setShowLegalModal(false)}
+        title={legalModalContent.title}
+        content={legalModalContent.content}
       />
 
-      {/* Schema.org JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Amagoia Louvier",
-            "jobTitle": "Closer de Ventas",
-            "description": "Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Transformo conversaciones en decisiones, creando conexiones auténticas que generan resultados extraordinarios.",
-            "url": "https://amagoialouviercloserventasdigital.es",
-            "image": "https://amagoialouviercloserventasdigital.es/assets/amagoia%20poerfil2.jpg",
-            "email": "amagoialr@gmail.com",
-            "telephone": "+34627985178",
-            "address": {
-              "@type": "PostalAddress",
-              "addressCountry": "ES"
-            },
-            "sameAs": [
-              "https://www.instagram.com/amagoialouvier/",
-              "https://www.facebook.com/amagoia.louvier",
-              "https://www.linkedin.com/in/amagoia-louvier/"
-            ],
-            "knowsAbout": [
-              "Closing de ventas",
-              "Ventas de alto ticket",
-              "Consultoría en ventas",
-              "Psicología de ventas",
-              "Marketing digital",
-              "Conversión de leads"
-            ],
-            "hasCredential": [
-              {
-                "@type": "EducationalOccupationalCredential",
-                "name": "15+ años de experiencia en ventas"
-              }
-            ],
-            "award": [
-              "35% de cierre promedio en Evergreen VSL",
-              "80% de cierre en lanzamientos High Ticket",
-              "35% de aumento en ventas para clientes"
-            ],
-            "offers": [
-              {
-                "@type": "Service",
-                "name": "Closing de Alto Ticket",
-                "description": "Manejo completo de llamadas de cierre para productos y servicios de alto valor",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Consultoría en Ventas",
-                "description": "Análisis y optimización completa de procesos de venta actuales",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Análisis de Conversión",
-                "description": "Evaluación detallada de métricas y optimización de embudos de venta",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              },
-              {
-                "@type": "Service",
-                "name": "Formación Personalizada",
-                "description": "Capacitación especializada en técnicas de closing y ventas conscientes",
-                "provider": {
-                  "@type": "Person",
-                  "name": "Amagoia Louvier"
-                }
-              }
-            ]
-          })
-        }}
+      <LeadCaptureModal 
+        isOpen={showLeadModal}
+        onClose={() => setShowLeadModal(false)}
+        onOpenLegal={openLegalModal}
+        legalContent={legalContent}
       />
     </div>
   );
