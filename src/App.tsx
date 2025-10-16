@@ -269,7 +269,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
   return (
     <div className="smooth-scroll" style={{ backgroundColor: '#FDF8F3' }}>
       {/* Header */}
-      <nav className={`navbar navbar-expand-lg fixed-top navbar-custom ${isScrolled ? 'navbar-scrolled' : ''}`}>
+      <header>
+      <nav className={`navbar navbar-expand-lg fixed-top navbar-custom ${isScrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Navegación principal">
         <div className="container">
           <div className="navbar-brand d-flex align-items-center">
             <img 
@@ -324,6 +325,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
           </div>
         </div>
       </nav>
+      </header>
 
       {/* WhatsApp Float Button */}
       <a
@@ -337,6 +339,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       </a>
 
       {/* Hero Section */}
+      <main>
       <section id="inicio" className="hero-gradient d-flex align-items-center" style={{ minHeight: '100vh', paddingTop: '80px' }} data-aos="fade-up">
         <div className="container py-5">
           <div className="text-center">
@@ -351,8 +354,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               Transformo conversaciones en decisiones, creando conexiones auténticas que generan resultados extraordinarios en ventas de alto ticket digital.
             </p>
             <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center" data-aos="fade-up" data-aos-delay="800">
-              <button 
-                onClick={() => scrollToSection('contacto')}
+              <button
                 className="btn btn-gold btn-lg px-4 py-3 rounded-pill fw-semibold"
                 onClick={() => {
                   trackButtonClick('hero_transform_sales');
@@ -376,6 +378,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
       </section>
 
       {/* About Section */}
+      <article>
       <section id="sobre-mi" className="py-5 bg-white">
         <div className="container py-4">
           <div className="row align-items-center mb-5" data-aos="fade-right">
@@ -389,12 +392,17 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
               <p className="fs-5 text-gray mb-4">
                 Mi metodología se basa en entender profundamente las necesidades del cliente, crear confianza genuina y guiar hacia decisiones que realmente transformen sus vidas y negocios.
               </p>
+              <h3 className="fs-5 fw-bold text-gray mb-2">
+                <strong className="text-terracotta">¿Qué es un Closer de Ventas?</strong>
+              </h3>
               <p className="fs-5 text-gray mb-4">
-                <strong className="text-terracotta">¿Qué es un Closer de Ventas?</strong> <br /> 
                 Un closer es el especialista que se encarga de la fase final y más crítica del proceso de ventas: convertir leads cualificados en clientes que toman la decisión de compra. Mientras tú te enfocas en crear contenido y generar leads, yo me especializo en las conversaciones de cierre, manejando objeciones, convietiendo las necesidades del cliente en oportunidades de crecimiento para su negocio.
               </p>
+              <h3 className="fs-5 fw-bold text-gray mb-2">
+                <strong className="text-gold">¿Por qué necesitas una closer especializada?</strong>
+              </h3>
               <p className="fs-5 text-gray mb-4">
-                <strong className="text-gold">¿Por qué necesitas una closer especializada?</strong> <br /> Porque el 80% de las ventas se pierden por falta de seguimiento profesional y técnicas de cierre inadecuadas. Yo convierto esas oportunidades perdidas en ingresos reales.
+                Porque el 80% de las ventas se pierden por falta de seguimiento profesional y técnicas de cierre inadecuadas. Yo convierto esas oportunidades perdidas en ingresos reales.
               </p>
             </div>
             <div className="col-lg-6 text-center" data-aos="fade-left">
@@ -466,6 +474,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
           </div>
         </div>
       </section>
+      </article>
 
       {/* Benefits Section */}
       <section id="beneficios" className="py-5 benefits-gradient">
@@ -568,7 +577,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <Target size={28} className="text-white" />
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h4 fw-bold mb-2 text-gray">Closing de Alto Ticket</h3>
+                      <h3 className="h4 fw-bold mb-2 text-gray"><a href="#contacto" className="text-decoration-none text-gray">Closing de Alto Ticket</a></h3>
                       <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
                         Manejo completo de llamadas de cierre para productos y servicios de alto valor.
                       </p>
@@ -592,7 +601,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <BookOpen size={28} className="text-white" />
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h4 fw-bold mb-2 text-gray">Consultoría en Ventas</h3>
+                      <h3 className="h4 fw-bold mb-2 text-gray"><a href="#contacto" className="text-decoration-none text-gray">Consultoría en Ventas</a></h3>
                       <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
                         Análisis y optimización completa de tus procesos de venta actuales.
                       </p>
@@ -616,7 +625,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <BarChart3 size={28} className="text-white" />
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h4 fw-bold mb-2 text-gray">Análisis de Conversión</h3>
+                      <h3 className="h4 fw-bold mb-2 text-gray"><a href="#contacto" className="text-decoration-none text-gray">Análisis de Conversión</a></h3>
                       <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
                         Seguimiento detallado de métricas y ROI para optimizar resultados.
                       </p>
@@ -640,7 +649,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <Heart size={28} className="text-white" />
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h4 fw-bold mb-2 text-gray">Fidelización y Seguimiento</h3>
+                      <h3 className="h4 fw-bold mb-2 text-gray"><a href="#contacto" className="text-decoration-none text-gray">Fidelización y Seguimiento</a></h3>
                       <p className="text-gray mb-3" style={{ fontSize: '1rem', lineHeight: '1.6' }}>
                         Estrategias personalizadas para mantener y fortalecer la relación con tus clientes.
                       </p>
@@ -660,8 +669,8 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
           {/* Consulta Gratuita Section */}
           <div className="mt-5" data-aos="zoom-in">
             <div className="consultation-box text-center">
-              <h3 className="h2 font-serif fw-bold text-gray mb-4">
-                <span className="text-gold">Consulta Personalizada</span>
+              <h3 className="h3 font-serif fw-bold text-gray mb-4">
+                <a href="#contacto" className="text-decoration-none"><span className="text-gold">Consulta Personalizada</span></a>
               </h3>
               <p className="fs-5 mb-4" style={{ color: 'rgba(110, 110, 110, 0.8)' }}>
                 Agenda una llamada de 30 minutos para analizar tu situación actual y descubrir oportunidades de mejora
@@ -825,31 +834,31 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                         </div>
                         <h3 className="h4 fw-bold text-gray">Información de contacto</h3>
                       </div>
-                      <div className="contact-info-item mb-3">
+                      <div className="contact-info-item mb-3" itemProp="telephone">
                         <div className="contact-info-icon">
                           <Phone className="text-gold" size={24} />
                         </div>
                         <div>
                           <p className="fw-semibold text-gray mb-1">Teléfono</p>
-                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>627 985 178</p>
+                          <a href="tel:+34627985178" className="mb-0 text-decoration-none" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>+34 627 985 178</a>
                         </div>
                       </div>
-                      <div className="contact-info-item mb-3">
+                      <div className="contact-info-item mb-3" itemProp="email">
                         <div className="contact-info-icon">
                           <Mail className="text-terracotta" size={24} />
                         </div>
                         <div>
                           <p className="fw-semibold text-gray mb-1">Email</p>
-                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>amagoiavd@gmail.com</p>
+                          <a href="mailto:amagoiavd@gmail.com" className="mb-0 text-decoration-none" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>amagoiavd@gmail.com</a>
                         </div>
                       </div>
-                      <div className="contact-info-item">
+                      <div className="contact-info-item" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                         <div className="contact-info-icon">
                           <MapPin className="text-lavender" size={24} />
                         </div>
                         <div>
                           <p className="fw-semibold text-gray mb-1">Ubicación</p>
-                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }}>España en Remoto</p>
+                          <p className="mb-0" style={{ color: 'rgba(110, 110, 110, 0.7)' }} itemProp="addressCountry">España (Remoto)</p>
                         </div>
                       </div>
                     </div>
@@ -920,9 +929,10 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-gray text-white py-5">
+      <footer className="bg-gray text-white py-5" itemScope itemType="https://schema.org/Person">
         <div className="container">
           <div className="text-center mb-4">
             <img 
