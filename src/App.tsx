@@ -61,7 +61,7 @@ function App() {
       "@type": "Person",
       "name": "Amagoia Louvier",
       "jobTitle": "Especialista en Closing de Ventas de Alto Ticket Digital",
-      "description": "Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 35% con técnicas probadas.",
+      "description": "Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 45% con técnicas probadas.",
       "url": "https://amagoialouviercloserventasdigital.es",
       "image": "https://amagoialouviercloserventasdigital.es/assets/logo%20amagoia.jpg",
       "telephone": "+34627985178",
@@ -115,14 +115,14 @@ function App() {
     };
 
     // Update SEO meta tags
-    updateMetaTag('description', 'Amagoia Louvier - Especialista en closing de ventas de alto ticket digital. Incrementa tus conversiones hasta un 35% con técnicas probadas y personalizadas para tu audiencia.');
+    updateMetaTag('description', 'Amagoia Louvier - Especialista en closing de ventas de alto ticket digital. Incrementa tus conversiones hasta un 45% con técnicas probadas y personalizadas para tu audiencia.');
     updateMetaTag('keywords', 'closer de ventas, alto ticket, ventas digitales, closing, consultoría ventas, Amagoia Louvier, ventas, ventas digitales, mentorías, conversión, leads');
     updateMetaTag('author', 'Amagoia Louvier');
     updateMetaTag('robots', 'index, follow');
     
     // Update Open Graph tags
     updateMetaTag('og:title', 'Amagoia Louvier - Closer de Ventas Digital Alto Ticket', true);
-    updateMetaTag('og:description', 'Transformo conversaciones en decisiones. Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 35%.', true);
+    updateMetaTag('og:description', 'Transformo conversaciones en decisiones. Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 45%.', true);
     updateMetaTag('og:type', 'website', true);
     updateMetaTag('og:url', 'https://amagoialouviercloserventasdigital.es/', true);
     updateMetaTag('og:image', 'https://amagoialouviercloserventasdigital.es/assets/logo%20amagoia.jpg', true);
@@ -436,7 +436,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <div className="gradient-mixed rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <Award className="text-white" size={32} />
                       </div>
-                      <h3 className="h4 text-white mb-1">35%</h3>
+                      <h3 className="h4 text-white mb-1">50%</h3>
                       <p className="mb-0 text-white-50">Cierre Promedio Evergreen VSL</p>
                     </div>
                   </div>
@@ -464,7 +464,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                       <div className="bg-terracotta rounded-circle p-3 mx-auto mb-3" style={{ width: '64px', height: '64px' }}>
                         <TrendingUp className="text-white" size={32} />
                       </div>
-                      <h3 className="h4 text-white mb-1">35%</h3>
+                      <h3 className="h4 text-white mb-1">45%</h3>
                       <p className="mb-0 text-white-50">Aumento de Ventas</p>
                     </div>
                   </div>
