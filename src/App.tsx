@@ -63,7 +63,7 @@ function App() {
       "jobTitle": "Especialista en Closing de Ventas de Alto Ticket Digital",
       "description": "Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 45% con técnicas probadas.",
       "url": "https://amagoialouviercloserventasdigital.es",
-      "image": "https://amagoialouviercloserventasdigital.es/assets/logo%20amagoia.jpg",
+      "image": "https://amagoialouviercloserventasdigital.es/assets/logo-amagoia.jpg",
       "telephone": "+34627985178",
       "email": "amagoialr@gmail.com",
       "address": {
@@ -125,13 +125,13 @@ function App() {
     updateMetaTag('og:description', 'Transformo conversaciones en decisiones. Especialista en closing de ventas de alto ticket digital con más de 15 años de experiencia. Incrementa tus conversiones hasta un 45%.', true);
     updateMetaTag('og:type', 'website', true);
     updateMetaTag('og:url', 'https://amagoialouviercloserventasdigital.es/', true);
-    updateMetaTag('og:image', 'https://amagoialouviercloserventasdigital.es/assets/logo%20amagoia.jpg', true);
+    updateMetaTag('og:image', 'https://amagoialouviercloserventasdigital.es/assets/logo-amagoia.jpg', true);
     
     // Update Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
     updateMetaTag('twitter:title', 'Amagoia Louvier - Closer de Ventas de Alto Ticket');
     updateMetaTag('twitter:description', 'Especialista en closing de ventas de alto ticket digital. Incrementa tus conversiones hasta un 35% con técnicas probadas y personalizadas para tu audiencia.');
-    updateMetaTag('twitter:image', 'https://amagoialouviercloserventasdigital.es/assets/logo%20amagoia.jpg');
+    updateMetaTag('twitter:image', 'https://amagoialouviercloserventasdigital.es/assets/logo-amagoia.jpg');
     AOS.init({
       duration: 1000,
       once: true,
@@ -274,7 +274,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
         <div className="container">
           <div className="navbar-brand d-flex align-items-center">
             <img 
-              src="/assets/logo amagoia.jpg" 
+              src="/assets/logo-amagoia.jpg" 
               alt="Amagoia Louvier - Especialista en Closing de Ventas de Alto Ticket Digital" 
               className="rounded-circle me-3"
               style={{ width: '48px', height: '48px', objectFit: 'cover', border: '2px solid #D4AF37' }}
@@ -417,7 +417,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
                   }}
                 ></div>
                 <img 
-                  src="/assets/amagoia poerfil2.jpg" 
+                  src="/assets/amagoia-perfil2.jpg" 
                   alt="Amagoia Louvier - Closer de Ventas Especializada en Alto Ticket Digital con 15 años de experiencia" 
                   className="profile-image position-relative"
                   style={{ width: '400px', height: '480px', objectFit: 'cover' }}
@@ -705,7 +705,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
             </p>
             <div className="d-flex justify-content-center mb-4" data-aos="zoom-in">
               <img 
-                src="/assets/amagoia petfil1.jpg" 
+                src="/assets/amagoia-perfil1.jpg" 
                 alt="Amagoia Louvier - Contacto para Servicios de Closing y Consultoría en Ventas" 
                 className="rounded-circle border border-4"
                 style={{ 
@@ -936,7 +936,7 @@ Enviado desde el formulario de contacto de amagoialouviercloserdeventas.netlify.
         <div className="container">
           <div className="text-center mb-4">
             <img 
-              src="/assets/logo amagoia.jpg" 
+              src="/assets/logo-amagoia.jpg" 
               alt="Amagoia Louvier - Logo Oficial Closer de Ventas Digital" 
               className="rounded-circle mb-3"
               style={{ width: '80px', height: '80px', objectFit: 'cover', border: '2px solid #D4AF37' }}
